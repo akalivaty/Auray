@@ -12,6 +12,7 @@ sentence-transformers
 langchain-community
 pypdf
 qdrant-client
+unstructured
 
 # note: flash_attn (ver2) only support above 30XX series GPU on windows (official), below is compiled by someone for windows (unofficial)
 # pip install flash_attn-2.5.9.post1+cu122torch2.3.0cxx11abiFALSE-cp311-cp311-win_amd64
