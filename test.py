@@ -7,9 +7,7 @@ from langchain_community.document_loaders import PyPDFLoader, UnstructuredMarkdo
 from langchain_community.vectorstores import Qdrant
 from langchain_core.runnables import RunnablePassthrough
 from langchain_huggingface import HuggingFaceEmbeddings, HuggingFacePipeline
-from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from sentence_transformers import SentenceTransformer
 from transformers import (
     AutoModelForCausalLM,
     AutoTokenizer,
@@ -166,6 +164,6 @@ rag_chain = (
     {"context": retriever, "question": RunnablePassthrough()} | prompt | hfPipeline
 ).with_config({"run_name": ls_run_name})
 
-questions = "「若使用預先安裝之每裝置唯一通行碼，則應以機制產生此等通行碼，以降低對某類別或型式裝置的自動化攻擊之風險」符合哪一項控制措施？" # 控制措施5.1-2
+questions = "「若使用預先安裝之每裝置唯一通行碼，則應以機制產生此等通行碼，以降低對某類別或型式裝置的自動化攻擊之風險」符合哪一項控制措施？"  # 控制措施5.1-2
 
 rag_chain.invoke(questions)

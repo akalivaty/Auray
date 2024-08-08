@@ -12,3 +12,4 @@ unstructured
 protobuf==4.25.4
 qdrant-client
 langchainhub
+ipywidgets      
