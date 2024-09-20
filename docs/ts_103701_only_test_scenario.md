@@ -572,7 +572,8 @@ The purpose of this test case is the conceptual assessment of the update mechani
 a) For each software component in IXIT 6-SoftComp, the TL **shall** assess whether at least one "Update Mechanism" is described, which is simple for the user to apply according to "Initiation and Interaction" in IXIT 7-UpdMech based on the following factors:
 
 - the software update is automatically applied without requiring any user interaction; or
-- the software update is initiated via a web interface on the device; or - the software update uses a comparable approach which is applicable for the user with limited technical knowledge (see clause D.3).
+- the software update is initiated via a web interface on the device; or
+- the software update uses a comparable approach which is applicable for the user with limited technical knowledge (see clause D.3).
 - the software update is initiated via an associated service; or Assignment of verdict The verdict PASS is assigned if:
 - each software component is covered by at least one update mechanism, which is simple for the user to apply.
 
@@ -889,7 +890,8 @@ a) The TL **shall** apply the test units a-b as specified in the Test case 5.3-9
 
 - authenticated communication channels; or
 - presence on a network that requires the device to possess a critical security parameter or password to join; or
-- digital signature based verification of the update; or - confirmation by the user; or
+- digital signature based verification of the update; or
+- confirmation by the user; or
 - a comparable secure functionality.
 
 c) The TL **shall** functionally assess whether update mechanisms that are not documented in IXIT 7-UpdMech are available via a network interface on the DUT.
@@ -1620,8 +1622,7 @@ The purpose of this test case is the functional assessment of device functionali
 
 a) For each "Authentication Mechanism" referenced in IXIT 13-SoftServ, the TL **shall** functionally assess whether an unauthenticated subject and a subject with invalid identity or credentials and an authenticated subject without appropriate access rights cannot access the device functionality in the initialized state.
 
-NOTE: This test unit cannot in principle distinguish between the authentication and the authorization step -
-implementation aiming at reducing information leak will not disclose which step would fail to the subject.
+NOTE: This test unit cannot in principle distinguish between the authentication and the authorization step - implementation aiming at reducing information leak will not disclose which step would fail to the subject.
 
 b) For each "Authentication Mechanism" referenced in IXIT 13-SoftServ, the TL **shall** functionally assess whether an authenticated subject with appropriate access rights can access the device functionality in the initialized state.
 
@@ -2230,19 +2231,31 @@ The verdict PASS is assigned if the secure development covers:
 
 The verdict FAIL is assigned otherwise.
 
-# 5.7 Tso 5.7: Ensure Software Integrity 
+# 5.7 Tso 5.7: Ensure Software Integrity
 
-### 5.7.1 Test Group 5.7-1
+## 5.7.1 Test Group 5.7-1
 
-5.7.1.0 Test group objective The test group addresses the provision 5.7-1. This test group assesses whether the verification mechanism is suitable to verify the software based on the provided security guarantees and provides evidence about their implementation. To enable tamper resistance, at least integrity and authenticity are necessary secure guarantees in context of this test group.
+### 5.7.1.0 Test group objective
+
+The test group addresses the provision 5.7-1.
+
+This test group assesses whether the verification mechanism is suitable to verify the software based on the provided security guarantees and provides evidence about their implementation. To enable tamper resistance, at least integrity and authenticity are necessary secure guarantees in context of this test group.
 
 NOTE: Threat modelling and the baseline attacker model described in clauses D.1 and D.2 are helpful to derive appropriate security guarantees, conceptually evaluate the corresponding mechanisms and functionally evaluate the correct implementation on a basic level.
 
+### 5.7.1.1 Test case 5.7-1-1 (conceptual)
+
+#### Test purpose
+
 The purpose of this test case is the conceptual assessment of the secure boot mechanisms of the DUT.
 
-Test units b) The TL **shall** assess whether for each secure boot mechanism in IXIT 20-SecBoot the "Description" and corresponding "Detection Mechanisms" are suitable to provide the "Security Guarantees" it is used.
+#### Test units
 
 a) The TL **shall** assess whether the "Security Guarantees" of each secure boot mechanism in IXIT 20-SecBoot provide at least verification of integrity and authenticity of device software.
+
+b) The TL **shall** assess whether for each secure boot mechanism in IXIT 20-SecBoot the "Description" and corresponding "Detection Mechanisms" are suitable to provide the "Security Guarantees" it is used.
+
+#### Assignment of verdict
 
 The verdict PASS is assigned if:
 
@@ -2251,13 +2264,19 @@ The verdict PASS is assigned if:
 
 The verdict FAIL is assigned otherwise.
 
-5.7.1.2 Test case 5.7-1-2 (functional)
+### 5.7.1.2 Test case 5.7-1-2 (functional)
+
+#### Test purpose
 
 The purpose of this test case is the functional assessment of the secure boot mechanisms of the DUT.
 
-Test units a) The TL **shall** functionally assess whether the verification of the device software is implemented according to the information in IXIT 20-SecBoot.
+#### Test units
+
+a) The TL **shall** functionally assess whether the verification of the device software is implemented according to the information in IXIT 20-SecBoot.
 
 NOTE: Such inspection can include the simple manipulation of the firmware (e.g. bit manipulation), if the TL can get access to the firmware with basic resources (compare to clause D.2).
+
+#### Assignment of verdict
 
 The verdict PASS is assigned if:
 
@@ -2266,17 +2285,27 @@ documentation.
 
 The verdict FAIL is assigned otherwise.
 
-## 5.7.2 Test Group 5.7-2 5.7.2.0 Test Group Objective
+## 5.7.2 Test Group 5.7-2
+
+### 5.7.2.0 Test Group Objective
 
 The test group addresses the provision 5.7-2.
 
 This test group assesses whether in the case that unauthorized changes in software are detected, the designated entity is alerted and communication of the DUT is restricted to that which is absolutely necessary for the alerting function (in the following referred to as "restricting mechanism").
 
+### 5.7.2.1 Test case 5.7-2-1 (conceptual)
+
+#### Test purpose
+
 The purpose of this test case is the conceptual assessment of the alerting mechanisms a) and mechanisms for restricting the communication b) in case of detecting an unauthorized software change.
 
-Test units a) The TL **shall** assess whether the method for "User Notification" including its contained information is sufficient to inform the user and/or administrator about unauthorized changes in device software.
+#### Test units
+
+a) The TL **shall** assess whether the method for "User Notification" including its contained information is sufficient to inform the user and/or administrator about unauthorized changes in device software.
 
 b) The TL **shall** assess whether every "Notification Functionality" in IXIT 20-SecBoot is necessary for the described method of "User Notification".
+
+#### Assignment of verdict
 
 The verdict PASS is assigned if:
 
@@ -2285,59 +2314,104 @@ The verdict PASS is assigned if:
 
 The verdict FAIL is assigned otherwise.
 
+### 5.7.2.2 Test case 5.7-2-2 (functional)
+
+#### Test purpose
+
 The purpose of this test case is the functional assessment of the alerting mechanisms a) and mechanisms for restricting the communication b) in case of detecting an unauthorized software change.
 
-Test units a) The TL **shall** functionally assess whether alerting takes place as described in "User Notification" in IXIT 20-SecBoot after the detection of an unauthorized change in device software.
+#### Test units
+
+a) The TL **shall** functionally assess whether alerting takes place as described in "User Notification" in IXIT 20-SecBoot after the detection of an unauthorized change in device software.
 
 b) The TL **shall** functionally assess whether the communication capabilities of the DUT to wider networks are restricted to the ones described in "Notification Functionality" in IXIT 20-SecBoot after the detection of an unauthorized change in device software.
 
 NOTE: Methods for functional evaluation of the communication capacities can include passive traffic inspection
 (e.g. by means of a protocol analyser) or traffic manipulation (e.g. redirection of traffic to a log facility).
 
+#### Assignment of verdict
+
 The verdict PASS is assigned if:
 
+- there is no indication that the implementation of any alerting mechanism of the DUT differs from its IXIT documentation; and
 - only communication to wider networks is detected after detection of unauthorized changes, that is described as necessary.
 
 The verdict FAIL is assigned otherwise.
 
-## 5.8 Tso 5.8: Ensure That Personal Data Is Secure 5.8.1 Test Group 5.8-1 5.8.1.0 Test Group Objective
+# 5.8 Tso 5.8: Ensure That Personal Data Is Secure
 
-The test group addresses the provision 5.8-1. The difference compared to Test group 5.5-1 is, that the use case in the underlying provision is concretised on the communication of personal data, which requires at least confidentiality.
+## 5.8.1 Test Group 5.8-1
+
+### 5.8.1.0 Test Group Objective
+
+The test group addresses the provision 5.8-1.
+
+The difference compared to Test group 5.5-1 is, that the use case in the underlying provision is concretised on the communication of personal data, which requires at least confidentiality.
 
 The objective of this test group is to assess, firstly, whether the cryptographic methods provide the security guarantees that are necessary for the use case of the communication of personal data and, secondly, whether the cryptographic methods are not known to be vulnerable to a feasible attack.
 
-- there is no indication that the implementation of any alerting mechanism of the DUT differs from its IXIT
-documentation; and
+### 5.8.1.1 Test case 5.8-1-1 (conceptual)
+
+#### Test purpose
 
 The purpose of this test case is the conceptual assessment of the cryptography used for communicating personal data between a device and a service.
+
+#### Test units
 
 a) For all "Communication Mechanisms" in IXIT 11-ComMech referenced in any personal data in IXIT 21-PersData, the TL **shall** apply all test units as specified in the Test case 5.5-1-1 with restriction, that at least the security guarantee of confidentiality is required to be fulfilled.
 
 NOTE: In this case the security guarantee "confidentiality" means confidentiality protection against unauthorized parties. This can include authenticity verification of a communication partner.
 
+#### Assignment of verdict
+
 The verdict PASS is assigned if for all communication mechanisms used for communicating personal data:
 
-- the security guarantees are appropriate for the use case of communicating personal data; and - all used cryptographic details are considered as best practice for the use case; and - the mechanism is appropriate to achieve the security guarantees with respect to the use case; and - all used cryptographic details are not known to be vulnerable to a feasible attack.
+- the security guarantees are appropriate for the use case of communicating personal data; and
+- all used cryptographic details are considered as best practice for the use case; and
+- the mechanism is appropriate to achieve the security guarantees with respect to the use case; and
+- all used cryptographic details are not known to be vulnerable to a feasible attack.
 
 The verdict FAIL is assigned otherwise.
 
-The purpose of this test case is the functional assessment of the cryptography used for communicating personal data between a device and a service. Test units a) For all "Communication Mechanisms" in IXIT 11-ComMech referenced in any personal data in IXIT 21-PersData, the TL **shall** apply all test units as specified in the Test case 5.5-1-2.
+### 5.8.1.2 Test case 5.8-1-2 (functional)
 
-Assignment of verdict The verdict PASS is assigned if:
+#### Test purpose
+
+The purpose of this test case is the functional assessment of the cryptography used for communicating personal data between a device and a service.
+
+#### Test units
+
+a) For all "Communication Mechanisms" in IXIT 11-ComMech referenced in any personal data in IXIT 21-PersData, the TL **shall** apply all test units as specified in the Test case 5.5-1-2.
+
+#### Assignment of verdict
+
+The verdict PASS is assigned if:
 
 - there is no indication that any used cryptographic setting differs from its IXIT documentation.
 
-The verdict FAIL is assigned otherwise. The test group addresses the provision 5.8-2.
+The verdict FAIL is assigned otherwise.
 
-The difference compared to Test group 5.5-1 and Test group 5.8-1 is, that the use case in the underlying provision is concretised on the communication of sensitive personal data between the device and associated services, which requires at least confidentiality. The objective of this test group is to assess, firstly, whether the cryptographic methods provide the security guarantees that are necessary for the use case of the communication of personal data and, secondly, whether the cryptographic methods are not known to be vulnerable to a feasible attack.
+## 5.8.2 Test Group 5.8-2
 
-## 5.8.2 Test Group 5.8-2 5.8.2.0 Test Group Objective 5.8.2.1 Test Case 5.8-2-1 (Conceptual) Test Purpose
+### 5.8.2.0 Test Group Objective
+
+The test group addresses the provision 5.8-2.
+
+The difference compared to Test group 5.5-1 and Test group 5.8-1 is, that the use case in the underlying provision is concretised on the communication of sensitive personal data between the device and associated services, which requires at least confidentiality.
+
+The objective of this test group is to assess, firstly, whether the cryptographic methods provide the security guarantees that are necessary for the use case of the communication of personal data and, secondly, whether the cryptographic methods are not known to be vulnerable to a feasible attack.
+
+### 5.8.2.1 Test Case 5.8-2-1 (Conceptual)
+
+#### Test Purpose
 
 The purpose of this test case is the conceptual assessment of the cryptography used for communicating sensitive personal data between the device and associated services.
 
 a) For all "Communication Mechanisms" in IXIT 11-ComMech referenced in any sensitive personal data in IXIT 21-PersData according to "Sensitive", where the communication partner is an associated service, the TL shall apply all test units as specified in the Test case 5.5-1-1 with restriction, that at least the security guarantee of confidentiality is required to be fulfilled.
 
 NOTE: In this case the security guarantee "confidentiality" means confidentiality protection against unauthorized parties. This can include authenticity verification of a communication partner.
+
+#### Assignment of verdict
 
 The verdict PASS is assigned if for all communication mechanisms used for communicating sensitive personal data between the device and an associated service:
 
@@ -2348,31 +2422,43 @@ The verdict PASS is assigned if for all communication mechanisms used for commun
 
 The verdict FAIL is assigned otherwise.
 
-## 5.8.2.2 Test Case 5.8-2-2 (Functional) Test Purpose Test Units
+### 5.8.2.2 Test Case 5.8-2-2 (Functional)
+
+#### Test Purpose
 
 The purpose of this test case is the functional assessment of the cryptography used for communicating sensitive personal data between the device and associated services.
 
+#### Test Units
+
 a) For all "Communication Mechanisms" in IXIT 11-ComMech referenced in any sensitive personal data in IXIT 21-PersData according to "Sensitive", where the communication partner is an associated service, the TL shall apply all test units as specified in the Test case 5.5-1-2.
 
-## Assignment Of Verdict 5.8.3 Test Group 5.8-3 5.8.3.0 Test Group Objective
+## Assignment Of Verdict
 
 The verdict PASS is assigned if:
 
 - there is no indication that any used cryptographic setting differs from its IXIT documentation.
 
-The verdict FAIL is assigned otherwise. The test group addresses the provision 5.8-3.
+The verdict FAIL is assigned otherwise.
+
+## 5.8.3 Test Group 5.8-3
+
+### 5.8.3.0 Test Group Objective
+
+The test group addresses the provision 5.8-3.
 
 This test group aims at revealing any capabilities of a DUT to sense information about its surroundings, such as optic, acoustic, biometric or location sensors. It is to be documented in a way that the user is knowledgeable about information that is obtained by the DUT.
 
-NOTE 1: The aim is to ensure that no functional sensing capabilities exist in the DUT that are undocumented.
-
-Inactive sensing capabilities could be activated by an attacker e.g. using compromised firmware. In general, not all sensing capabilities of the DUT are necessarily active. Still, all capabilities have to be documented.
+NOTE 1: The aim is to ensure that no functional sensing capabilities exist in the DUT that are undocumented.Inactive sensing capabilities could be activated by an attacker e.g. using compromised firmware. In general, not all sensing capabilities of the DUT are necessarily active. Still, all capabilities have to be documented.
 
 NOTE 2: Clearness and transparency of documentation refer to an understandable description in the documentation, as well as an explanation for the presence of sensing capabilities in the DUT.
 
-## 5.8.3.1 Test Case 5.8-3-1 (Functional) Test Purpose
+### 5.8.3.1 Test Case 5.8-3-1 (Functional)
+
+#### Test Purpose
 
 The purpose of this test case is the functional assessment of the documentation of external sensing capabilities (a-b) and the completeness of the IXIT documentation c).
+
+#### Test Units
 
 a) The TL **shall** functionally check whether the documentation of external sensing capabilities is accessible as documented in "Documentation of Sensors" in IXIT 2-UserInfo.
 
@@ -2384,38 +2470,60 @@ c) The TL **shall** functionally assess whether all obvious sensing capabilities
 
 NOTE: Such assessment can include a visual inspection of the DUT's casing with regard to indications for undocumented sensoring capabilities. If indications are found, opening the casing can provide clarity.
 
+#### Assignment of Verdict
+
 The verdict PASS is assigned if:
 
-- the documentation is accessible according to the IXIT; and - the documentation is understandable for a user with limited technical knowledge; and
+- the documentation is accessible according to the IXIT; and
+- the documentation is understandable for a user with limited technical knowledge; and
 - each obvious sensing capability of the DUT is documented for the user.
 
 The verdict FAIL is assigned otherwise.
 
-## 5.9 Tso 5.9: Make Systems Resilient To Outages 5.9.1 Test Group 5.9-1
+# 5.9 Tso 5.9: Make Systems Resilient To Outages
 
-5.9.1.0 Test group objective The test group addresses the provision 5.9-1.
+## 5.9.1 Test Group 5.9-1
 
-5.9.1.1 Test case 5.9-1-1 (conceptual)
+### 5.9.1.0 Test group objective
+
+The test group addresses the provision 5.9-1.
+
+### 5.9.1.1 Test case 5.9-1-1 (conceptual)
+
+#### Test purpose
 
 The purpose of this test case is the conceptual assessment of the resilience mechanisms concerning outages of network and power.
+
+#### Test units
 
 a) The TL **shall** assess whether the combination of the resilience mechanisms in IXIT 23-ResMech are appropriate to protect against network connectivity and power outages according to the "Security Guarantees".
 
 b) For each resilience mechanism in IXIT 23-ResMech the TL **shall** assess whether the mechanism according to the "Description" is appropriate to achieve the "Security Guarantees".
 
+#### Assignment of verdict
+
 The verdict PASS is assigned if:
 
-- the resilience mechanisms are appropriate to protect against network connectivity and power outages; and - every resilience mechanism is appropriate to achieve its security guarantees.
+- the resilience mechanisms are appropriate to protect against network connectivity and power outages; and
+- every resilience mechanism is appropriate to achieve its security guarantees.
 
 The verdict FAIL is assigned otherwise.
 
+### 5.9.1.2 Test case 5.9-1-2 (functional)
+
+#### Test purpose
+
 The purpose of this test case is the functional assessment of the resilience mechanisms concerning outages of network and power.
 
-Test units a) The TL **shall** interrupt the DUT's connection to the network and functionally assess whether the resilience mechanisms operate as described in IXIT 23-ResMech.
+#### Test units
+
+a) The TL **shall** interrupt the DUT's connection to the network and functionally assess whether the resilience mechanisms operate as described in IXIT 23-ResMech.
 
 b) The TL **shall** interrupt the DUT's power supply and functionally assess whether the resilience mechanisms operate as described in IXIT 23-ResMech.
 
 EXAMPLE: If the DUT monitors local events and to report them to an associated service via network, disrupting the network connection while triggering a local event and verifying that after reconnection to the network the event is visible on the interface of the associated service can be helpful to collect an indication.
+
+#### Assignment of verdict
 
 The verdict PASS is assigned if:
 
@@ -2425,25 +2533,42 @@ The verdict FAIL is assigned otherwise.
 
 ## 5.9.2 Test Group 5.9-2
 
-5.9.2.0 Test group objective The test group addresses the provision 5.9-2.
+### 5.9.2.0 Test group objective
 
-5.9.2.1 Test case 5.9-2-1 (conceptual)
+The test group addresses the provision 5.9-2.
+
+### 5.9.2.1 Test case 5.9-2-1 (conceptual)
+
+#### Test purpose
 
 The purpose of this test case is the conceptual assessment of the resilience mechanisms concerning outages of network and power a) and the operation during network outages b) and restoration after power outages c).
 
-Test units a) The TL **shall** apply all test units as specified in the Test case 5.9-1-1 for the resilience mechanisms in IXIT 23-ResMech.
+#### Test units
+
+a) The TL **shall** apply all test units as specified in the Test case 5.9-1-1 for the resilience mechanisms in IXIT 23-ResMech.
 
 b) The TL **shall** assess whether the resilience mechanisms in IXIT 23-ResMech protecting against network connectivity outages according to "Type" are appropriate to ensure, that the DUT remains operating and locally functional in the case of a loss of network connectivity.
 
 c) The TL **shall** assess whether the resilience mechanisms in IXIT 23-ResMech protecting against power outages according to "Type" are appropriate to ensure, that the DUT resumes the connectivity and functionality after a loss of power in the same or improved state as before.
 
+#### Assignment of verdict
+
 The verdict PASS is assigned if:
 
+- the resilience mechanisms are appropriate to protect against network connectivity and power outages; and
+- every resilience mechanism is appropriate to achieve its security guarantees; and
+- the resilience mechanisms are appropriate to ensure that the DUT remains operating and locally functional in the case of a loss of network connectivity; and
 - the resilience mechanisms are appropriate to ensure that the DUT recovers cleanly after a loss of power.
 
 The verdict FAIL is assigned otherwise.
 
+### 5.9.2.2 Test case 5.9-2-2 (functional)
+
+#### Test purpose
+
 The purpose of this test case is the functional assessment of the resilience mechanisms concerning outages of network and power, the operation during network outages and restoration after power outages.
+
+#### Test units
 
 a) The TL **shall** interrupt the DUT's connection to the network and functionally assess whether the resilience mechanisms operate as described in IXIT 23-ResMech and the DUT remains operating and locally functional after the loss of network connectivity.
 
@@ -2453,6 +2578,8 @@ b) The TL **shall** interrupt the DUT's power supply and functionally assess whe
 
 EXAMPLE 2: If the DUT monitors local events and to report them to an associated service via network, triggering a local event after power resumption and verifying that the event is visible on the interface of the associated service can be helpful to collect an indication.
 
+#### Assignment of verdict
+
 The verdict PASS is assigned if:
 
 - there is no indication that the operation of the resilience mechanisms during network connectivity or power outages differs from its IXIT documentation; and
@@ -2461,25 +2588,34 @@ The verdict PASS is assigned if:
 
 The verdict FAIL is assigned otherwise.
 
-- the resilience mechanisms are appropriate to ensure that the DUT remains operating and locally functional in the case of a loss of network connectivity; and
-- every resilience mechanism is appropriate to achieve its security guarantees; and
-- the resilience mechanisms are appropriate to protect against network connectivity and power outages; and
+## 5.9.3 Test Group 5.9-3
 
-## 5.9.3 Test Group 5.9-3 5.9.3.0 Test Group Objective
+### 5.9.3.0 Test Group Objective
 
 The test group addresses the provision 5.9-3.
 
 This test group considers the capabilities:
 
-- to perform a standardized connection establishment, and - to protect against mass-reconnections.
+- to perform a standardized connection establishment, and
+- to protect against mass-reconnections.
+
+### 5.9.3.1 Test case 5.9-3-1 (conceptual)
+
+#### Test purpose
 
 The purpose of this test case is the conceptual assessment of the resilience measures for the communication mechanisms.
 
-Test units NOTE 1: An appropriate measure to achieve a connection in an orderly fashion is to follow suitable standards for initialization and termination.
+#### Test units
+
+a) For each communication mechanism in IXIT 11-ComMech the TL **shall** assess whether the "Resilience Measures" are appropriate to achieve a connection to a network in an orderly fashion taking the capability of the infrastructure into consideration.
+
+NOTE 1: An appropriate measure to achieve a connection in an orderly fashion is to follow suitable standards for initialization and termination.
 
 b) For each communication mechanism in IXIT 11-ComMech the TL **shall** assess whether the "Resilience Measures" are appropriate to support the operation of a stable network taking the capability of the infrastructure into consideration.
 
 NOTE 2: An appropriate measure to support a stable network is to prevent simultaneous mass-reconnections. This can be done by connecting to a random server from a given list (load balancing) or a random delay when reconnecting.
+
+#### Assignment of verdict
 
 The verdict PASS is assigned if:
 
@@ -2488,16 +2624,19 @@ The verdict PASS is assigned if:
 
 The verdict FAIL is assigned otherwise.
 
-## Test Purpose Test Units
+### 5.9.3.2 Test case 5.9-3-2 (functional)
 
-5.9.3.2 Test case 5.9-3-2 (functional)
+#### Test Purpose
+
 The purpose of this test case is the functional assessment of the resilience measures for the communication mechanisms.
+
+#### Test Units
 
 a) The TL **shall** functionally assess whether the implemented "Resilience Measures" for each communication method in IXIT 11-ComMech are implemented as described, especially considering the protection against simultaneous mass-reconnections.
 
 EXAMPLE: If the DUT uses the TCP/IP protocol, a network sniffer to verify the initialization and termination concerning the connection establishment follows the corresponding standards can be helpful to collect indications.
 
-a) For each communication mechanism in IXIT 11-ComMech the TL **shall** assess whether the "Resilience Measures" are appropriate to achieve a connection to a network in an orderly fashion taking the capability of the infrastructure into consideration.
+#### Assignment of Verdict
 
 The verdict PASS is assigned if:
 
@@ -2506,16 +2645,29 @@ documentation.
 
 The verdict FAIL is assigned otherwise.
 
-## 5.10 Tso 5.10: Examine System Telemetry Data 5.10.1 Test Group 5.10-1
+# 5.10 Tso 5.10: Examine System Telemetry Data
 
-5.10.1.0 Test group objective The test group addresses the provision 5.10-1. According to ETSI TS 103 645 [1]/ETSI EN 303 645 [2], telemetry data can provide information to help the manufacturer identify issues or information related to DUT usage.
+## 5.10.1 Test Group 5.10-1
 
-5.10.1.1 Test case 5.10-1-1 (conceptual)
-Test purpose The purpose of this test case is the conceptual assessment of the security anomaly examination.
+### 5.10.1.0 Test group objective
 
-Test units a) The TL **shall** check whether at least one "Security Examination" is provided in IXIT 24-TelData for examining for security anomalies.
+The test group addresses the provision 5.10-1.
+
+According to ETSI TS 103 645 [1]/ETSI EN 303 645 [2], telemetry data can provide information to help the manufacturer identify issues or information related to DUT usage.
+
+### 5.10.1.1 Test case 5.10-1-1 (conceptual)
+
+#### Test purpose
+
+The purpose of this test case is the conceptual assessment of the security anomaly examination.
+
+#### Test units
+
+a) The TL **shall** check whether at least one "Security Examination" is provided in IXIT 24-TelData for examining for security anomalies.
 
 b) For each "Security Examination" of telemetry data in IXIT 24-TelData, the TL **shall** assess whether the associated telemetry data in "Description" are suited for the described security examination and for examining the data for security anomalies.
+
+#### Assignment of verdict
 
 The verdict PASS is assigned if:
 
@@ -2524,12 +2676,21 @@ The verdict PASS is assigned if:
 
 The verdict FAIL is assigned otherwise.
 
-## 5.11 Tso 5.11: Make It Easy For Users To Delete User Data 5.11.1 Test Group 5.11-1
+# 5.11 Tso 5.11: Make It Easy For Users To Delete User Data
 
-5.11.1.0 Test group objective The test group addresses the provision 5.11-1.
+## 5.11.1 Test Group 5.11-1
 
-5.11.1.1 Test case 5.11-1-1 (conceptual)
-Test purpose The purpose of this test case is the conceptual assessment of the user data erasure functionalities of the DUT.
+### 5.11.1.0 Test group objective
+
+The test group addresses the provision 5.11-1.
+
+### 5.11.1.1 Test case 5.11-1-1 (conceptual)
+
+#### Test purpose
+
+The purpose of this test case is the conceptual assessment of the user data erasure functionalities of the DUT.
+
+#### Test units
 
 a) The TL **shall** assess whether at least one functionality is provided according to IXIT 25-DelFunc, which can be performed by the user with limited technical knowledge (see clause D.3) according to "Description" and "Initiation and Interaction" to erase user data from the device according to "Target Type".
 
@@ -2539,18 +2700,27 @@ NOTE 1: Erasure can be realized by overwriting with a pre-defined value or by in
 
 c) The TL **shall** assess whether the functionalities to erase user data in IXIT 25-DelFunc cover personal data, user configuration and user-related cryptographic material.
 
-NOTE 2: The information in IXIT 10-SecParam, IXIT 21-PersData and other IXITs is helpful to identify user data. NOTE 3: Cryptographic material can be user passwords or keys.
+NOTE 2: The information in IXIT 10-SecParam, IXIT 21-PersData and other IXITs is helpful to identify user data.
+
+NOTE 3: Cryptographic material can be user passwords or keys.
+
+#### Assignment of verdict
 
 The verdict PASS is assigned if no user data is stored on the device; or:
 
-- at least one simple functionality to erase user data from the device is provided to the user; and - the described functionality is adequate to erase the targeted user data from the device; and
+- at least one simple functionality to erase user data from the device is provided to the user; and
+- the described functionality is adequate to erase the targeted user data from the device; and
 - personal data, user configuration and cryptographic material is covered by the functionalities to erase user data from the device.
 
 The verdict FAIL is assigned otherwise.
 
-5.11.1.2 Test case 5.11-1-2 (functional)
+### 5.11.1.2 Test case 5.11-1-2 (functional)
+
+#### Test purpose
 
 The purpose of this test case is the functional assessment of the user data erasure functionalities of the DUT.
+
+#### Test units
 
 a) The TL **shall** create typical user data on the DUT with regard to the usage of the device.
 
@@ -2562,36 +2732,55 @@ c) The TL **shall** perform each functionality to erase user data from the devic
 
 EXAMPLE: The comparison between the configuration before and after the erasure can be helpful to collect an indication concerning not erased user data.
 
+#### Assignment of verdict
+
 The verdict PASS is assigned if for any functionality to erase user data from the device:
 
-- the initiation and interaction of the user is consistent with the IXIT; and - there is no indication that the corresponding user data is not erased successfully.
+- the initiation and interaction of the user is consistent with the IXIT; and
+- there is no indication that the corresponding user data is not erased successfully.
 
 The verdict FAIL is assigned otherwise.
 
-## 5.11.2 Test Group 5.11-2 5.11.2.0 Test Group Objective
+## 5.11.2 Test Group 5.11-2
+
+### 5.11.2.0 Test Group Objective
 
 The test group addresses the provision 5.11-2.
 
 The provision implies that a functionality for removal of personal data can be clearly identified (possibly in relation to a specific associated service that can be used from the device) and can be easily performed.
 
+### 5.11.2.1
+
+Test case 5.11-2-1 (conceptual)
+
+#### Test purpose
+
 The purpose of this test case is the conceptual assessment of the personal data removal functionalities of the DUT.
 
-Test units b) The TL **shall** assess whether all associated services storing personal data according to "Processing Activities" in IXIT 21-PersData are covered by the combination of all deletion functionalities in IXIT 25-DelFunc.
-
-## Assignment Of Verdict Test Purpose
+#### Test units
 
 a) For all deletion functionalities in IXIT 25-DelFunc the TL **shall** assess whether at least one functionality is provided, which can be performed by the user with limited technical knowledge (see clause D.3) according to "Description" and "Initiation and Interaction" to remove all personal data stored on the associated services according to "Target Type".
 
+b) The TL **shall** assess whether all associated services storing personal data according to "Processing Activities" in IXIT 21-PersData are covered by the combination of all deletion functionalities in IXIT 25-DelFunc.
+
+## Assignment Of Verdict Test Purpose
+
 The verdict PASS is assigned if:
 
-- at least one simple functionality to remove personal data from associated services is provided to the user; and - every associated service storing personal data is covered by a simple deletion functionality.
+- at least one simple functionality to remove personal data from associated services is provided to the user; and
+- every associated service storing personal data is covered by a simple deletion functionality.
 
 The verdict FAIL is assigned otherwise.
 
-5.11.2.2 Test case 5.11-2-2 (functional)
+### 5.11.2.2 Test case 5.11-2-2 (functional)
+
+#### Test purpose
+
 The purpose of this test case is the functional assessment of the personal data removal functionalities of the DUT.
 
-Test units a) The TL **shall** create typical personal data on associated services with regard to the usage of the DUT.
+#### Test units
+
+a) The TL **shall** create typical personal data on associated services with regard to the usage of the DUT.
 
 NOTE 1: The information from "Processing Activities" IXIT 21-PersData can be helpful to create personal data which are stored on associated services.
 
@@ -2603,6 +2792,8 @@ EXAMPLE: The comparison between the stored personal data before and after the re
 
 NOTE 2: Although it is assumed, that the TL is not in control of the associated services (see clause 4.2.1), there can be an indication for completing the operation by the associated services, e.g. notification about completion or log files.
 
+#### Assignment of verdict
+
 The verdict PASS is assigned if for every functionality to remove personal data on associated services:
 
 - the initiation and interaction of the user is consistent with the IXIT; and
@@ -2612,21 +2803,31 @@ The verdict FAIL is assigned otherwise.
 
 ## 5.11.3 Test Group 5.11-3
 
-5.11.3.0 Test group objective The test group addresses the provision 5.11-3.
+### 5.11.3.0 Test group objective
+
+The test group addresses the provision 5.11-3.
 
 Characteristics of clear instructions as expected by a user include conciseness and accuracy.
 
-5.11.3.1 Test case 5.11-3-1 (functional)
+### 5.11.3.1 Test case 5.11-3-1 (functional)
+
+#### Test purpose
 
 The purpose of this test case is the functional assessment of the user documentation for the personal data deletion functionalities of the DUT.
 
-Test units a) The TL **shall** create typical personal data with regard to the usage of the DUT. NOTE 1: The information from "Processing Activities" IXIT 21-PersData can be helpful to create personal data which are stored on the DUT and on associated services.
+#### Test units
+
+a) The TL **shall** create typical personal data with regard to the usage of the DUT.
+
+NOTE 1: The information from "Processing Activities" IXIT 21-PersData can be helpful to create personal data which are stored on the DUT and on associated services.
 
 b) The TL **shall** functionally assess whether all deletion functionalities in IXIT 25-DelFunc are covered by the
 "Documentation of Deletion" in IXIT 2-UserInfo.
 
 c) For each deletion functionality in IXIT 25-DelFunc the TL **shall** perform the functionality according to the
 "Documentation of Deletion" in IXIT 2-UserInfo and functionally assess whether it is described in a concise manner and includes all necessary steps to delete the personal data from the device or associated service according to "Target Type" in IXIT 25-DelFunc.
+
+#### Assignment of verdict
 
 The verdict PASS is assigned if every deletion functionality:
 
@@ -2635,19 +2836,27 @@ The verdict PASS is assigned if every deletion functionality:
 
 The verdict FAIL is assigned otherwise.
 
-## 5.11.4 Test Group 5.11-4 5.11.4.0 Test Group Objective
+## 5.11.4 Test Group 5.11-4
+
+### 5.11.4.0 Test Group Objective
 
 The test group addresses the provision 5.11-4.
 
 A clear confirmation entails a transparent message that carries a positive statement in the case that the requested operation was successfully completed. The aim of the test group is to assess the design of the confirmation. The functionality of the mechanism is verified in Test group 5.11-1 and Test group 5.11-2.
 
-## 5.11.4.1 Test Case 5.11-4-1 (Functional) Test Purpose
+## 5.11.4.1 Test Case 5.11-4-1 (Functional)
+
+#### Test Purpose
 
 The purpose of this test case is the functional assessment of the confirmation for the user concerning the deletion functionalities.
+
+#### Test Units
 
 a) The TL **shall** perform each deletion functionality in IXIT 25-DelFunc according to "Documentation of Deletion" in IXIT 2-UserInfo.
 
 b) For each deletion functionality in IXIT 25-DelFunc the TL **shall** functionally assess whether the user is provided with a clear "Confirmation", that the corresponding data is deleted.
+
+#### Assignment of Verdict
 
 The verdict PASS is assigned if:
 
@@ -2655,21 +2864,37 @@ The verdict PASS is assigned if:
 
 The verdict FAIL is assigned otherwise.
 
-## 5.12 Tso 5.12: Make Installation And Maintenance Of Devices Easy
+# 5.12 Tso 5.12: Make Installation And Maintenance Of Devices Easy
 
-5.12.1 Test group 5.12-1 5.12.1.0 Test group objective The test group addresses the provision 5.12-1. Involving minimal decisions by the user entails that some decision steps are automated by the DUT. Security best practices on usability entail that decision steps are prominently displayed to the use (not hidden) and that the configuration parameters have secure defaults.
+## 5.12.1 Test group 5.12-1
+
+### 5.12.1.0 Test group objective
+
+The test group addresses the provision 5.12-1.
+
+Involving minimal decisions by the user entails that some decision steps are automated by the DUT. Security best practices on usability entail that decision steps are prominently displayed to the use (not hidden) and that the configuration parameters have secure defaults.
 
 NOTE: Considering the level of assurance aimed by ETSI TS 103 645 [1]/ETSI EN 303 645 [2], physical installation and physical security are not in scope of this test group.
 
+### 5.12.1.1
+
+Test case 5.12-1-1 (conceptual)
+
+#### Test purpose
+
 The purpose of this test case is the conceptual assessment of the installation and maintenance decisions to be taken by the user.
 
-Test units a) For each decision in IXIT 26-UserDec the TL **shall** assess whether it is necessary regarding the usage in the operational environment.
+#### Test units
+
+a) For each decision in IXIT 26-UserDec the TL **shall** assess whether it is necessary regarding the usage in the operational environment.
 
 NOTE 1: The operational environment can vary. An indicator for minimal decisions is that only decisions with impact on the operation environment are taken by the user, e.g. to avoid incompatibilities, otherwise default values are used.
 
 b) For each decision in IXIT 26-UserDec the TL **shall** assess whether the default value for the decision according to "Options" follows security best practice.
 
 NOTE 2: It is helpful to use the provisions from ETSI TS 103 645 [1]/ETSI EN 303 645 [2] as guidance for security best practice.
+
+#### Assignment of verdict
 
 The verdict PASS is assigned if:
 
@@ -2678,9 +2903,15 @@ The verdict PASS is assigned if:
 
 The verdict FAIL is assigned otherwise.
 
+### 5.12.1.2 Test case 5.12-1-2 (functional)
+
+#### Test purpose
+
 The purpose of this test case is the functional assessment of the installation and maintenance decisions to be taken by the user.
 
-Test units a) The TL **shall** trigger all user-based decisions in IXIT 26-UserDec according to "Triggered By".
+#### Test units
+
+a) The TL **shall** trigger all user-based decisions in IXIT 26-UserDec according to "Triggered By".
 
 b) For each decision in IXIT 26-UserDec the TL **shall** functionally assess whether it is prominently requested from the user during the installation and maintenance flows.
 
@@ -2688,9 +2919,13 @@ c) For each decision in IXIT 26-UserDec the TL **shall** functionally assess whe
 
 d) The TL **shall** functionally assess whether the decisions to be taken by the user during installation and maintenance on the DUT are conformant to their "Description" and "Options" in IXIT 26-UserDec.
 
+#### Assignment of verdict
+
 The verdict PASS is assigned if:
 
-- every decision taken by the user is prominently requested during the installation and maintenance flows; and - every decision taken by the user is understandable for a user with limited technical knowledge; and - every decision taken by the user during installation or maintenance on the DUT is as described in the IXIT.
+- every decision taken by the user is prominently requested during the installation and maintenance flows; and
+- every decision taken by the user is understandable for a user with limited technical knowledge; and
+- every decision taken by the user during installation or maintenance on the DUT is as described in the IXIT.
 
 The verdict FAIL is assigned otherwise.
 
@@ -2698,27 +2933,44 @@ The verdict FAIL is assigned otherwise.
 
 The test group addresses the provision 5.12-2. Guidance entails describing what the setup parameters are that have an impact on security, issuing a recommendation on how to configure the parameters to achieve a secure setup.
 
-## 5.12.2.1 Test Case 5.12-2-1 (Functional) Test Purpose
+## 5.12.2.1 Test Case 5.12-2-1 (Functional)
+
+#### Test Purpose
 
 The purpose of this test case is the functional assessment of the user guidance on securely setting up the DUT.
 
-Test units a) The TL **shall** set up the DUT using the "Documentation of Secure Setup" described in IXIT 2-UserInfo. b) The TL **shall** functionally assess whether in the "Documentation of Secure Setup" described in IXIT 2-UserInfo each security-relevant user decision in IXIT 26-UserDec is covered by the documentation.
+#### Test units
+
+a) The TL **shall** set up the DUT using the "Documentation of Secure Setup" described in IXIT 2-UserInfo.
+
+b) The TL **shall** functionally assess whether in the "Documentation of Secure Setup" described in IXIT 2-UserInfo each security-relevant user decision in IXIT 26-UserDec is covered by the documentation.
 
 c) The TL **shall** functionally assess whether the "Documentation of Secure Setup" described in IXIT 2-UserInfo includes recommendations on how to take the security-relevant user decisions to achieve a secure setup.
 
+#### Assignment of verdict
+
 The verdict PASS is assigned if:
 
-- every security-relevant user decision is covered by the documentation; and - for every security-relevant user decision a recommendation on how to achieve a secure setup is given.
+- every security-relevant user decision is covered by the documentation; and
+- for every security-relevant user decision a recommendation on how to achieve a secure setup is given.
 
 The verdict FAIL is assigned otherwise.
 
-## 5.12.3 Test Group 5.12-3 5.12.3.0 Test Group Objective
+## 5.12.3 Test Group 5.12-3
 
-The test group addresses the provision 5.12-3. Because the methods available to check whether a device is securely set up vary from product to product, the test group focuses on verifying the existence of guidance documentation and its key characteristics: accessible, on topic, concise, accurate, with clear verification criteria, and reproducible by the user.
+### 5.12.3.0 Test Group Objective
 
-## 5.12.3.1 Test Case 5.12-3-1 (Functional) Test Purpose
+The test group addresses the provision 5.12-3.
+
+Because the methods available to check whether a device is securely set up vary from product to product, the test group focuses on verifying the existence of guidance documentation and its key characteristics: accessible, on topic, concise, accurate, with clear verification criteria, and reproducible by the user.
+
+### 5.12.3.1 Test Case 5.12-3-1 (Functional)
+
+#### Test Purpose
 
 The purpose of this test case is the functional assessment of the user guidance on checking whether the DUT is securely set up.
+
+#### Test Units
 
 a) The TL **shall** set up the DUT using an example configuration.
 
@@ -2730,6 +2982,8 @@ c) The TL **shall** functionally assess whether the check applied to the example
 
 EXAMPLE: Verifying that the result of checking a secure and an insecure configuration states that the DUT is securely and not securely set up respectively is helpful to collect an indication for a reasonable result.
 
+#### Assignment of Verdict
+
 The verdict PASS is assigned if:
 
 - every step for checking the securely set up is covered by the documentation; and
@@ -2737,20 +2991,35 @@ The verdict PASS is assigned if:
 
 The verdict FAIL is assigned otherwise.
 
-## 5.13 Tso 5.13: Validate Input Data 5.13.1 Test Group 5.13-1 5.13.1.0 Test Group Objective 5.13.1.1 Test Case 5.13-1-1 (Conceptual) Test Purpose Assignment Of Verdict 5.13.1.2 Test Case 5.13-1-2 (Functional) Test Purpose Test Units
+# 5.13 Tso 5.13: Validate Input Data
 
-The test group addresses the provision 5.13-1. Input data validation ensures that the receiving end can process the data without causing unexpected behaviour. This entails verifying that the provided data is of the correct type (allowed data format and data structures), of allowed value, and of allowed cardinalities and ordering. This can be done against a list of acceptable values when such list is short.
+## 5.13.1 Test Group 5.13-1
+
+### 5.13.1.0 Test Group Objective
+
+The test group addresses the provision 5.13-1.
+
+Input data validation ensures that the receiving end can process the data without causing unexpected behaviour. This entails verifying that the provided data is of the correct type (allowed data format and data structures), of allowed value, and of allowed cardinalities and ordering. This can be done against a list of acceptable values when such list is short.
+
+### 5.13.1.1 Test Case 5.13-1-1 (Conceptual)
+
+#### Test Purpose
 
 The purpose of this test case is the conceptual assessment of the data input validation methods of the DUT.
 
+#### Test Units
+
 a) The TL **shall** assess whether the combination of data input validation methods in IXIT 29-InpVal covers all sources for data input including
 
-- the user interfaces, which enable data input from the user in IXIT 27-UserIntf; and - the application programming interfaces (APIs), which enable data input from external sources in IXIT 28-ExtAPI; and
+- the user interfaces, which enable data input from the user in IXIT 27-UserIntf; and
+- the application programming interfaces (APIs), which enable data input from external sources in IXIT 28-ExtAPI; and
 - the network communications, which enable data input according to the corresponding remotely accessible communication methods in IXIT 11-ComMech.
 
 b) For each data input validation method in IXIT 29-InpVal, the TL **shall** assess whether it is effective for validating the corresponding data input.
 
 NOTE: Validation typically includes checks that data input is of an allowed format and structure, of an allowed value, of an allowed cardinality and of an allowed ordering with the aim to prevent misuse.
+
+#### Assignment Of Verdict
 
 The verdict PASS is assigned if:
 
@@ -2759,7 +3028,13 @@ The verdict PASS is assigned if:
 
 The verdict FAIL is assigned otherwise.
 
+### 5.13.1.2 Test Case 5.13-1-2 (Functional)
+
+#### Test Purpose
+
 The purpose of this test case is the functional assessment of the data input validation methods of the DUT a) and the completeness of the IXIT documentation (b-c).
+
+#### Test Units
 
 a) The TL **shall** functionally assess whether each data input validation method in IXIT 29-InpVal prevents the processing of unexpected data input.
 
@@ -2767,7 +3042,7 @@ NOTE 1: The TL is free to choose a source of data input for each data input vali
 
 NOTE 2: The TL possesses all credentials of a user to attempt the misuses.
 
-Test units NOTE 3: Automated tools can be used to generate unexpected data which does not suit to the expected input, e.g. in format and structure, value, cardinality or ordering.
+NOTE 3: Automated tools can be used to generate unexpected data which does not suit to the expected input, e.g. in format and structure, value, cardinality or ordering.
 
 EXAMPLE 1: If the DUT uses an interface with a stateless protocol, usage of a fuzzer with random input to verify the described input validation method can be helpful to collect indications.
 
@@ -2779,7 +3054,9 @@ c) The TL **shall** functionally assess whether all remotely accessible APIs of 
 
 EXAMPLE: Network scanning tools allow for discovery of remotely accessible APIs.
 
-Assignment of verdict The verdict PASS is assigned if:
+#### Assignment of verdict
+
+The verdict PASS is assigned if:
 
 - there is no indication that any data input validation does not protect against the processing of unexpected data input; and
 - every discovered user interface is documented in the IXIT; and
@@ -2787,12 +3064,25 @@ Assignment of verdict The verdict PASS is assigned if:
 
 The verdict FAIL is assigned otherwise.
 
-## 5.14 Tso 6: Data Protection For Consumer Iot
+# 5.14 Tso 6: Data Protection For Consumer Iot
 
-5.14.1 Test group 6-1 5.14.1.0 Test group objective The test group addresses the provision 6-1.
+## 5.14.1 Test group 6-1
 
-5.14.1.1 Test case 6-1-1 (conceptual)
-Test purpose The purpose of this test case is the conceptual assessment of the user information about the processing of personal data. Test units a) The TL **shall** assess whether the "Documentation of Personal Data" in IXIT 2-UserInfo is suitable for the consumer to obtain the information about processing personal data.
+### 5.14.1.0 Test group objective
+
+The test group addresses the provision 6-1.
+
+### 5.14.1.1 Test case 6-1-1 (conceptual)
+
+#### Test purpose
+
+The purpose of this test case is the conceptual assessment of the user information about the processing of personal data.
+
+#### Test units
+
+a) The TL **shall** assess whether the "Documentation of Personal Data" in IXIT 2-UserInfo is suitable for the consumer to obtain the information about processing personal data.
+
+#### Assignment of verdict
 
 The verdict PASS is assigned if:
 
@@ -2800,9 +3090,13 @@ The verdict PASS is assigned if:
 
 The verdict FAIL is assigned otherwise.
 
-5.14.1.2 Test case 6-1-2 (functional)
+### 5.14.1.2 Test case 6-1-2 (functional)
+
+#### Test purpose
 
 The purpose of this test case is the functional assessment of the user information about the processing of personal data.
+
+#### Test units
 
 a) The TL **shall** functionally assess whether the provided information about processing personal data (obtained information) is consistent to the description in "Documentation of Personal Data" in IXIT 2-UserInfo.
 
@@ -2812,21 +3106,41 @@ c) The TL **shall** functionally assess whether the obtained information describ
 
 d) The TL **shall** functionally assess whether the obtained information describe how personal data is being used, by whom, and for what purposes in a way understandable for a user with limited technical knowledge (see clause D.3).
 
+#### Assignment of verdict
+
 The verdict PASS is assigned if:
 
-- the information about processing personal data can be obtained as described; and - the obtained information about processing personal data match their description; and - the personal data being processed is clearly and transparently described; and - it is clearly and transparently described how personal data is being used, by whom, and for what purposes.
+- the information about processing personal data can be obtained as described; and
+- the obtained information about processing personal data match their description; and
+- the personal data being processed is clearly and transparently described; and
+- it is clearly and transparently described how personal data is being used, by whom, and for what purposes.
 
 The verdict FAIL is assigned otherwise.
 
-## 5.14.2 Test Group 6-2 5.14.2.0 Test Group Objective
+## 5.14.2 Test Group 6-2
 
-The test group addresses the provision 6-2. According to ETSI TS 103 645 [1]/ETSI EN 303 645 [2], obtaining consent "in a valid way" normally involves giving consumers a free, obvious and explicit opt-in choice of whether their personal data is used for a specified purpose.
+### 5.14.2.0 Test Group Objective
 
-The purpose of this test case is the conceptual assessment of the consumers' consent for the processing of personal data. Test units a) For each personal data in IXIT 21-PersData that is processed on the basis of consumers' consent according to
+The test group addresses the provision 6-2.
+
+According to ETSI TS 103 645 [1]/ETSI EN 303 645 [2], obtaining consent "in a valid way" normally involves giving consumers a free, obvious and explicit opt-in choice of whether their personal data is used for a specified purpose.
+
+### 5.14.2.1 Test case 6-2-1 (conceptual)
+
+#### Test purpose
+
+The purpose of this test case is the conceptual assessment of the consumers' consent for the processing of personal data.
+
+#### Test units
+
+a) For each personal data in IXIT 21-PersData that is processed on the basis of consumers' consent according to
 "Obtaining Consent", the TL **shall** assess whether the opt-in choice:
 
-- is given freely; and - is given obviously; and
+- is given freely; and
+- is given obviously; and
 - is given explicitly according to the description of "Obtaining Consent".
+
+#### Assignment of verdict
 
 The verdict PASS is assigned if for each category of personal data that is processed on the basis of consumers' consent:
 
@@ -2835,10 +3149,17 @@ The verdict PASS is assigned if for each category of personal data that is proce
 
 The verdict FAIL is assigned otherwise.
 
-5.14.2.2 Test case 6-2-2 (functional)
+### 5.14.2.2 Test case 6-2-2 (functional)
 
-The purpose of this test case is the functional assessment of the consumers' consent for the processing of personal data. Test units a) For each personal data in IXIT 21-PersData that is processed on the basis of consumers' consent according to
-"Obtaining Consent", the TL **shall** functionally assess whether consumers' consent to processing personal data is obtained as described in the IXIT.
+#### Test purpose
+
+The purpose of this test case is the functional assessment of the consumers' consent for the processing of personal data.
+
+#### Test units
+
+a) For each personal data in IXIT 21-PersData that is processed on the basis of consumers' consent according to "Obtaining Consent", the TL **shall** functionally assess whether consumers' consent to processing personal data is obtained as described in the IXIT.
+
+#### Assignment of verdict
 
 The verdict PASS is assigned if for each category of personal data that is processed on the basis of consumers' consent:
 
@@ -2846,18 +3167,25 @@ The verdict PASS is assigned if for each category of personal data that is proce
 
 The verdict FAIL is assigned otherwise.
 
-5.14.3 Test group 6-3
+## 5.14.3 Test group 6-3
 
-## 5.14.3.0 Test Group Objective
+### 5.14.3.0 Test Group Objective
 
 The test group addresses the provision 6-3.
 
 According to ETSI TS 103 645 [1]/ETSI EN 303 645 [2], withdrawing consent at any time normally involves configuring IoT device and service functionality appropriately.
 
+### 5.14.3.1 Test case 6-3-1 (conceptual)
+
+#### Test purpose
+
 The purpose of this test case is the conceptual assessment of withdrawing consumers' consent for the processing of personal data.
 
-Test units a) For each personal data in IXIT 21-PersData that is processed on the basis of consumers' consent according to
-"Obtaining Consent", the TL **shall** assess whether the information on "Withdrawing Consent" describes how to withdraw consent to the processing of personal data at any time by configuring IoT device and service functionality appropriately.
+#### Test units
+
+a) For each personal data in IXIT 21-PersData that is processed on the basis of consumers' consent according to "Obtaining Consent", the TL **shall** assess whether the information on "Withdrawing Consent" describes how to withdraw consent to the processing of personal data at any time by configuring IoT device and service functionality appropriately.
+
+#### Assignment of verdict
 
 The verdict PASS is assigned if for each category of personal data that is processed on the basis of consumers' consent:
 
@@ -2865,39 +3193,67 @@ The verdict PASS is assigned if for each category of personal data that is proce
 
 The verdict FAIL is assigned otherwise.
 
-## 5.14.3.2 Test Case 6-3-2 (Functional) Test Purpose
+## 5.14.3.2 Test Case 6-3-2 (Functional)
+
+#### Test Purpose
 
 The purpose of this test case is the functional assessment of withdrawing consumers' consent for the processing of personal data.
 
-a) For each personal data in IXIT 21-PersData that is processed on the basis of consumers' consent according to
-"Obtaining Consent", the TL **shall** functionally assess whether consumers' consent to processing personal data can be withdrawn as described in "Withdrawing Consent".
+#### Test Units
 
-Assignment of verdict The verdict PASS is assigned if for each category of personal data that is processed on the basis of consumers' consent:
+a) For each personal data in IXIT 21-PersData that is processed on the basis of consumers' consent according to "Obtaining Consent", the TL **shall** functionally assess whether consumers' consent to processing personal data can be withdrawn as described in "Withdrawing Consent".
+
+#### Assignment of verdict
+
+The verdict PASS is assigned if for each category of personal data that is processed on the basis of consumers' consent:
 
 - the way of withdrawing consumers' consent matches the description.
 
 The verdict FAIL is assigned otherwise.
 
-5.14.4 Test group 6-4 5.14.4.0 Test group objective The test group addresses the provision 6-4.
+## 5.14.4 Test group 6-4
 
-5.14.4.1 Test case 6-4-1 (conceptual)
-Test purpose The purpose of this test case is the conceptual assessment of the processing of telemetry data. Test units a) The TL **shall** assess whether the personal data in IXIT 21-PersData that are referenced in "Personal Data" in IXIT 24-TelData is necessary for the intended functionality as described in the "Purpose" of collecting the data.
+### 5.14.4.0 Test group objective
+
+The test group addresses the provision 6-4.
+
+### 5.14.4.1 Test case 6-4-1 (conceptual)
+
+#### Test purpose
+
+The purpose of this test case is the conceptual assessment of the processing of telemetry data.
+
+#### Test units
+
+a) The TL **shall** assess whether the personal data in IXIT 21-PersData that are referenced in "Personal Data" in IXIT 24-TelData is necessary for the intended functionality as described in the "Purpose" of collecting the data.
 
 NOTE: Telemetry data are considered to be necessary for the intended functionality if and only if they are needed for achieving the processing purposes.
 
-Assignment of verdict The verdict PASS is assigned if for each telemetry data:
+#### Assignment of verdict
+
+The verdict PASS is assigned if for each telemetry data:
 
 - their processing is necessary for the intended functionality.
 
 The verdict FAIL is assigned otherwise.
 
-5.14.5 Test group 6-5 5.14.5.0 Test group objective The test group addresses the provision 6-5.
+## 5.14.5 Test group 6-5
 
-5.14.5.1 Test case 6-5-1 (conceptual)
+### 5.14.5.0 Test group objective
+
+The test group addresses the provision 6-5.
+
+### 5.14.5.1 Test case 6-5-1 (conceptual)
+
+#### Test purpose
 
 The purpose of this test case is the conceptual assessment of the user information about the processing of telemetry data.
 
-Test units a) The TL **shall** assess whether the "Documentation of Telemetry Data" in IXIT 2-UserInfo is suitable for the consumer to obtain the information about processing telemetry data.
+#### Test units
+
+a) The TL **shall** assess whether the "Documentation of Telemetry Data" in IXIT 2-UserInfo is suitable for the consumer to obtain the information about processing telemetry data.
+
+#### Assignment of verdict
 
 The verdict PASS is assigned if:
 
@@ -2905,11 +3261,15 @@ The verdict PASS is assigned if:
 
 The verdict FAIL is assigned otherwise.
 
-## 5.14.5.2 Test Case 6-5-2 (Functional) Test Purpose
+## 5.14.5.2 Test Case 6-5-2 (Functional)
+
+#### Test Purpose
 
 The purpose of this test case is the functional assessment of user the information about the processing of telemetry data.
 
-Test units a) The TL **shall** functionally assess whether the provided information about processing telemetry data (obtained information) is consistent with the description in "Documentation of Telemetry Data" in IXIT 2-UserInfo.
+#### Test units
+
+a) The TL **shall** functionally assess whether the provided information about processing telemetry data (obtained information) is consistent with the description in "Documentation of Telemetry Data" in IXIT 2-UserInfo.
 
 b) The TL **shall** functionally assess whether the obtained information about processing telemetry data accessing the "Documentation of Telemetry Data" in IXIT 2-UserInfo match their "Purpose" described in IXIT 24-TelData.
 
@@ -2917,8 +3277,13 @@ c) The TL **shall** functionally check whether the obtained information describe
 
 d) The TL **shall** functionally check whether the obtained information describes how telemetry data is being used, by whom, and for what purposes.
 
+#### Assignment of verdict
+
 The verdict PASS is assigned if:
 
-- the information about processing telemetry data can be obtained as described; and - the obtained information about processing telemetry data match their description; and - the telemetry data being collected is described; and - it is completely described how telemetry data is being used, by whom, and for what purposes.
+- the information about processing telemetry data can be obtained as described; and
+- the obtained information about processing telemetry data match their description; and
+- the telemetry data being collected is described; and
+- it is completely described how telemetry data is being used, by whom, and for what purposes.
 
 The verdict FAIL is assigned otherwise.
