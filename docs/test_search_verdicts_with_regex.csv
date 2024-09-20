@@ -1,0 +1,727 @@
+﻿provision,status,support,detail,Test Scenario,answer,reason,result,解釋,criteria
+5.1-1 ,MC(1),,如果使用密碼並且處於出廠預設設置以外的任何狀態，則所有消費者物聯網設備密碼應為每個設備獨有的或由用戶定義。 ,"問題：當使用密碼且處於出廠預設值（例如「admin」）以外的任何狀態時，所有消費者物聯網裝置密碼應符合下列其中一項：
+1. 每個設備都是唯一的。
+2. 由使用者定義。請詳細說明密碼是如何建立的。 ",使用者密碼透過wizard由使用者設定且與MAC Address/SN無相關性，且無法反算或暴力計算。,,,密碼是如何建立的,"The verdict PASS is assigned if:  
+- each password of a password-based authentication mechanism being used in any state other than the factory default, that is not defined by the user, is unique per device.
+- every discovered password-based authentication mechanism is documented in the IXIT; and
+- the user is required to define all passwords before being used, that are stated as defined by the user in the IXIT;
+- there is no indication that the generation of a not user-defined password of the DUT used in any state other than the factory default differs from the generation mechanism described in the IXIT.
+The verdict FAIL is assigned otherwise."
+5.1-2,MC(2),,如果每台設備使用預安裝的密碼是獨有的，則應使用一種機制生成這些密碼，以降低對某種或某類設備類型進行自動攻擊的風險。,"預先安裝的每台設備的唯一密碼應透過一種機制生成，該機制可降低針對某一類或類型設備的自動攻擊的風險。
+（範例：隨機密碼）。
+問題：
+1. 使用預先安裝的每台設備唯一密碼時，使用什麼機制來產生密碼？",工廠生產線上的工具為每個設備隨機產生一個密碼，將其寫入設備閃存，然後列印在標籤上，讓使用者開始首次設定程序。,,,預設密碼的產生機制是什麼,"The verdict PASS is assigned if:  
+- no obvious regularities in pre-installed passwords are found; and
+- no common strings or other common patterns in pre-installed passwords are found; and
+- the generation mechanisms for pre-installed passwords do not induce passwords, that are related in an obvious way to public information; and
+- the generation mechanisms for pre-installed passwords are considered appropriate in terms of complexity.
+- for each pre-installed password there is no indication, that its generation differs from the generation mechanism described in the IXIT.
+The verdict FAIL is assigned otherwise."
+5.1-3,M,,用以對裝置鑑別使用者之鑑別機制，應使用對技術、風險及使用的性質適切之最佳實務密碼學。,"身份驗證資料在使用者和裝置之間傳輸時應進行加密。
+注意：傳輸通常可以在行動應用程式和裝置之間進行。
+注意：密碼需要始終受到保護，加密是保護密碼的標準方法。 
+如果密碼未加密，則它們可以簡單地讀取（即明文）並且很容易洩漏。（範例：傳輸過程中的密碼保護通常可以透過 TLS/SSL 隧道連線或 VPN 進行）。
+問題：1. 當使用者向裝置進行身份驗證時，身份驗證資料在傳輸過程中如何進行加密保護？ ","本機驗證透過 HMAC-SHA256 質詢使用使用者設定的密碼完成。 
+透過 HTTPs TLS v1.2 或更新的連線保護通道，cipher  套件符合 FIPS 14--3
+雲端管理通訊也透過 TLS v1.2 或更新的連線進行保護，cipher  套件符合 FIPS 14--3。 
+設備與雲端之間透過設備證書進行身份驗證。",,,身份驗證資料在傳輸過程中如何進行加密保護,"The verdict PASS is assigned if:  
+- the security guarantees are appropriate for the use case of user authentication; and
+- the mechanism is appropriate to achieve the security guarantees with respect to the use case; and
+- all used cryptographic details are considered as best practice for the use case; and
+- all used cryptographic details are not known to be vulnerable to a feasible attack for the desired security property.
+- there is no indication that any used cryptographic setting differs from its IXIT documentation.
+The verdict FAIL is assigned otherwise."
+5.1-4,MC(8),,當使用者可以針對設備進行身份驗證時，設備應向使用者或管理員提供簡單的機制來更改所使用的身份驗證值。,"（範例：密碼或指紋類型的令牌）。
+
+問題：
+1. 如果設備允許使用者認證，認證值token是否可以修改？","1. 登入裝置的裝置密碼，可以在app/web介面修改，修改前必須經過管理會話身分認證。
+2.雲端管理帳號的使用者密碼可以在App介面修改，修改前必須驗證使用者身分。",,,身份驗證後，驗證值(密碼、token..等)應有簡單的機制來更改所使用的身份驗證值,"The verdict PASS is assigned if:  
+- for all user based authentication mechanisms the published resource describes how to change the authentication value with a simple mechanism.
+- all mechanisms for the user to change authentication values for user authentication mechanisms work as described.
+The verdict FAIL is assigned otherwise."
+5.1-5,MC(5),,當裝置係非受限制時，其應具可用之機制，使得經由網路介面暴力攻擊鑑別機制為不切實際。,"當一個設備具有物理上的限制時，可能在數據處理能力、數據通信能力、數據存儲能力或與用戶交互能力上存在局限性。
+（例如：限制認證嘗試的次數，或在嘗試之間增加時間間隔；或者客戶端應用程序能夠在有限次數的認證失敗後鎖定帳戶或延遲額外的認證嘗試）。
+
+問題：
+
+如果設備沒有這些限制，該設備是否有防範透過網路介面對認證機制進行暴力破解攻擊的保護措施？",本地認證機制在連續5次錯誤登錄嘗試後鎖定API訪問60秒，這大大延長了暴力破解攻擊的時間。,,,當裝置是非受限時，要可以防止暴力破解,"The verdict PASS is assigned if:  
+- the documented mechanisms make brute force attacks via network interfaces impracticable.
+- ever discovered network-based authentication mechanism is documented in the IXIT; and
+- for all authentication mechanism via network interfaces there is no indication that the implementation of brute force prevention differs from its IXIT documentation.
+The verdict FAIL is assigned otherwise."
+5.2-1,M,,"製造商應公開漏洞公布政策。本政策至少應包括：
+報告問題的聯繫資訊;以及關於以下方面的時程表的資訊：
+1）收到初始確認;以及 2）狀態更新，直到報告的問題得到解決。","漏洞揭露政策明確規定了安全研究人員和其他人報告問題的流程。 此類政策可以根據需要進行更新，以進一步確保製造商與安全研究人員打交道的透明度和清晰度，反之亦然。        
+問題：
+1. 設備製造商如何組織漏洞揭露政策？ 製造商是否至少公開了以下資訊：
+• 報告問題的聯絡資訊； 和
+• 有關時間表的資訊：
+1) 初步確認收貨； 和
+2) 狀態更新至報告的問題已解決。",通過D-Link 網站（https://support.dlink.com/ReportVulnerabilities.aspx）漏洞通報資訊的聯繫方式向 D-Link 報告安全漏洞，D-Link 會及時分析安全漏洞，如果有必要會向報告者更新安全漏洞的最新狀態。 提供網站通報漏洞郵箱，以接收用戶發現的漏洞，並通過與網站告知使用者漏洞解決進度。,,,關於製造商有沒有公開設備的漏洞資訊,"The verdict PASS is assigned if:  
+- the publication of the vulnerability disclosure policy is available for anybody.
+- the vulnerability disclosure policy is publicly accessible; and
+- the vulnerability disclosure policy contains contact information and information on timelines regarding acknowledgement of receipt and status updates.
+The verdict FAIL is assigned otherwise."
+5.2-2,R,,對已揭露之漏洞宜以及時方式採取行動。,"針對漏洞採取行動的「及時方式」差異很大，並且是針對特定事件的；然而，按照慣例，軟體解決方案的漏洞處理過程會在 90 天內完成，包括修補程式的可用性和問題的通知。
+
+問題：
+1. 製造商是否有及時的政策來修復已揭露的漏洞？",根據公司規定，D-Link要求高級別風險在一個月內處理完畢，其他等級的風險將提供更新時間表。,,,製造商對於已知露的修補政策,"Assignment of verdict The verdict PASS is assigned if:
+
+- there is no indication that any described kind of vulnerability is not acted on timely; and
+- a confirmation for the implementation is given.
+
+The verdict FAIL is assigned otherwise."
+5.2-3,R,,製造者宜於所定義支援期間內，對其銷售及生產，以及所生產之產品及運作的服務，持續監視、識別及矯正安全漏洞。,"此漏洞操作預計將在其定義的支援期內針對產品執行。
+（但是，製造商可以在該期限之外繼續此操作並發布安全性更新以糾正漏洞）。
+
+問題：
+1. 以下領域有哪些持續監控、識別和修正安全漏洞的策略：
+A) 製造商銷售、生產和已生產的產品和服務？
+B) 製造商在規定的支援期內提供的服務？","1. D-Link 公司明確規範持續更新維護產品的安全性及功能性，一有相關的漏洞被發現，會即刻進行分析處理，並即時推出修複版本。
+2. 產品維護期間，會持續按照規範進行更新修復服務，如產品達到生命週期盡頭，也會早於60天之外提早公告網站資訊，讓使用者可以及早考慮更換機種或其他服務。",,,關於漏洞的修復政策,"The verdict PASS is assigned if:
+
+- the described way is suited for continuously monitoring for security vulnerabilities; and
+- the described way is suited for identifying security vulnerabilities; and
+- the described way is suited for rectifying security vulnerabilities; and
+- a confirmation for the implementation is given.
+
+The verdict FAIL is assigned otherwise."
+5.3-1,R,,消費者IoT裝置中之所有軟體組件宜為可安全更新。,"問題：
+1. IoT 設備中的所有軟體元件是否都可以安全更新？",D-Link 所有產品的FW都有數位簽章加上加密保護的機制，個別產品更有D-Link額外的認證機制，以保證非官方釋出的文件無法更新在D-Link設備上,,,所有設備應能安全更新其軟體,"The verdict PASS is assigned if:
+
+- for all software components without the ability for software updates, a software update is not possible for practicability reasons or security reasons; and
+- no update mechanism can be misused by an attacker.
+
+The verdict FAIL is assigned otherwise."
+5.3-2,MC(5),,當裝置係非受限制時，其應具用於更新之安全安裝的更新機制。,"如果設備沒有物理上的限制，攻擊者應被防止濫用更新機制。
+更新機制可以包括設備直接從遠程服務器下載更新、通過移動應用程序傳輸或通過USB連接傳輸。如果攻擊者破壞了這個機制，則可能在設備上安裝惡意版本的軟件。
+
+（例如：認證的軟件更新服務器、受保護的通信通道、驗證軟件更新的真實性和完整性，以及基於版本檢查的防回滾政策）。
+
+問題：
+如果設備不是受限制的設備：
+
+為了確保安全安裝更新，有哪些機制在運行？","1. D-Link 所有產品的FW都有數位簽章加上加密保護的機制，個別產品更有D-Link額外的認證機制，以保證非官方釋出的文件無法更新在D-Link設備上
+2. FW 無法降低版本安裝，只能安裝最新版本",,,非受限制的設備的安全更新機制是什麼,"The verdict PASS is assigned if:  
+- one update mechanism of the DUT cannot be misused by an attacker.
+- there is no indication that a misuse of one update mechanism of the DUT is possible.
+The verdict FAIL is assigned otherwise."
+5.3-3, MC(12),,供使用者使用之更新應簡單。,"簡單程度取決於設備的設計和預期用途。
+注意：易於應用的更新將自動套用，使用關聯服務（例如行動應用程式）或透過裝置上的 Web 介面啟動。
+注意：如果更新難以套用，則會增加使用者重複延遲更新裝置的可能性，使其處於易受攻擊的狀態。
+
+問題：
+如果實作更新機制：
+1. 更新操作簡單嗎？",消費者等級產品會由程式定時檢查最新版本firmware，會及時通知使用者更新，如使用者當初安裝時有允許自動更新，則會自動幫使用者更新firmware,,,更新步驟應簡單,"The verdict PASS is assigned if:
+
+- each software component is covered by at least one update mechanism, which is simple for the user to apply.
+
+The verdict FAIL is assigned otherwise."
+5.3-4, RC(12),,軟體更新，宜使用自動化機制。,"清晰的管理和部署計劃對製造商有利，對消費者來說更新支援當前狀態的透明度也是如此。
+注意：通常建議不要將安全性更新與更複雜的軟體更新捆綁在一起。
+範例：功能更新可能會改變設備的預期用途，從而將其變成新設備，從而需要進行新的合格評定。
+例：影響有限的軟體更新可以被視為維護更新，不需要新的合格評定。
+
+問題：
+如果實作更新機制：
+1. 是否使用自動機制？",消費者等級產品會由程式定時檢查最新版本firmware，會及時通知使用者更新，如使用者當初安裝時有允許自動更新，則會自動幫使用者更新firmware,,,軟體更新如果沒有改變設備的預期用途，應使用自動化的機制,"The verdict PASS is assigned if:
+
+- each software component is covered by at least one update mechanism that does not require any user interaction for performing an update and for checking the availability of an update; and
+- for each software component covered by a configurable update mechanism at least one of the automatic mechanisms is enabled by default.
+
+The verdict FAIL is assigned otherwise."
+5.3-5, RC(12),,裝置宜於初始化後核對，再定期核對是否有可用之安全更新。,"注意：對於某些設備，由關聯服務而不是設備來執行此類檢查可能更合適。
+範例：可以透過裝置初始化的介面向使用者顯示更新的存在。
+
+問題：
+如果實作更新機制：
+1. 設備初始化後是否檢查是否有可用的安全性更新？
+2. 設備是否定期檢查是否有可用的安全性更新？",消費者等級產品會由程式定時檢查最新版本firmware，會及時通知使用者更新，如使用者當初安裝時有允許自動更新，則會自動幫使用者更新firmware,,,設備在初始化時有沒檢查是否有可用的安全更新,"The verdict PASS is assigned if every software component is covered by at least one update mechanism, where:
+
+- the checking of the availability of software updates is triggered by the DUT itself; and
+- the availability of software updates is checked after initialization of the DUT; and
+- the availability of software updates is checked periodically.
+
+The verdict FAIL is assigned otherwise."
+5.3-6,"RC(9,12)",,若裝置支援自動更新及/或更新通知，則其宜於初始化狀態下啟用並可組態設定，以便使用者可啟用、停用或延後安裝安全更新及/或更新通知。,"注意：從消費者權利和所有權的角度來看，使用者可以控制是否接收更新，這一點很重要。
+
+問題：
+如果實作更新機制：
+如果裝置支援自動更新和/或更新通知：
+1. 它們是否在初始化狀態下啟用並在該狀態下可配置？
+A) 使用者可以啟用、停用或延遲安裝它們嗎？",消費者等級產品會由程式定時檢查最新版本firmware，會及時通知使用者更新，如使用者當初安裝時有允許自動更新，則會自動幫使用者更新firmware,,,支持自動更新的設備應預設啟用這個功能，用戶可以選擇啟用或停用。,"The verdict PASS is assigned if:  
+- the DUT supports automatic updates and for all update mechanisms the user is provided with the ability to enable, disable or postpone automatic installation of security updates and automatic updates are enabled in the initialized state; or the DUT does not support automatic updates; and
+- the DUT supports update notifications and for all update mechanisms the user is provided with the ability to enable, disable or postpone update notifications and update notifications are enabled in the initialized state; or the DUT does not support update notifications.
+- the DUT supports automatic updates and the configuration of automatic updates is enabled in the initialized state and can be modified by the user as described; or the DUT does not support automatic updates; and
+- the DUT supports update notifications and the configuration of update notifications is enabled in the initialized state and can be modified by the user as described; or the DUT does not support update notifications.
+The verdict FAIL is assigned otherwise."
+5.3-7, MC(12),,裝置應使用最佳實務密碼學，以有助於安全更新機制。,"注意：更新資料需要始終受到保護，加密是保護更新資料的標準方法。如果更新資料未加密，則可以簡單地讀取（即明文）並且很容易受到損害。
+所有更新資料在（從伺服器）傳輸到裝置時均應加密。
+
+問題：
+如果實作更新機制：
+1. 更新資料在傳輸過程中如何進行加密保護？使用哪些加密庫？","1. 每個裝置都嵌入了憑證授權單位公共憑證文件，以驗證 D-Link FOTA（空中韌體）伺服器的合法性，避免中間人或假貨伺服器。
+2. D-Link FOTA 伺服器與裝置之間的通訊通道透過 HTTPs TLS v1.2 或更新的連線進行保護，cipher  套件符合 FIPS 14--3
+3. D-Link FOTA 伺服器給出的韌體檔案透過以下方式驗證
+ A。來自 FOTA 伺服器的韌體檔案的 MD5 校驗和。
+ b.嵌入韌體檔案中的憑證簽署二進位檔案。
+ C。韌體檔案中嵌入的圖像也是 AES128 加密的二進位形式。",,,設備應使用最好的加密技術來保護更新過程。,"The verdict PASS is assigned if for all update mechanisms:
+
+- the security guarantees are appropriate for the use case of secure updates; and
+- the mechanism is appropriate to achieve the security guarantees with respect to the use case; and
+- all used cryptographic details are considered as best practice for the use case; and
+- all used cryptographic details are not known to be vulnerable to a feasible attack for the desired security property.
+
+The verdict FAIL is assigned otherwise."
+5.3-8, MC(12),,安全更新應及時。,"安全更新上下文中的「及時」可能會有所不同，具體取決於特定問題和修復以及其他因素，例如到達設備的能力或受限設備注意事項。
+重要的是，製造商應以適當的優先順序處理修復關鍵漏洞（即具有大規模潛在不利影響的漏洞）的安全性更新。
+
+問題：
+如果實作更新機制：
+1. 一旦偵測到漏洞或問題，部署安全性更新的時間表和流程如何？",消費者等級產品會由程式定時檢查最新版本firmware，會及時通知使用者更新，如使用者當初安裝時有允許自動更新，則會自動幫使用者更新firmware,,,安全更新應及時進行,"The verdict PASS is assigned if:
+
+- there is an indication that the described management procedure allows a timely deployment of security updates; and
+- a confirmation for the implementation is given.
+
+The verdict FAIL is assigned otherwise."
+5.3-9,RC(12),,裝置宜查證軟體更新之真確性及完整性。,"確認更新有效的常見方法是驗證其完整性和真實性。
+確保設備軟體更新由授權信任實體簽署並使用可接受的加密方法進行加密，並且更新包具有其數位簽章、簽章憑證和簽章憑證鏈，並在更新過程開始之前由裝置進行驗證。
+注意：數位簽章是校驗和的一種形式，因為它們提供資料完整性，但它們需要非對稱加密來提供真實性。
+注意：受限設備可能具有功率限制，導致執行加密操作的成本高昂。
+
+問題：
+如果實作更新機制：
+1. 設備能否驗證軟體更新的真實性和完整性？",D-Link 所有產品的firmware都有數位簽章加上加密保護的機制，個別產品更有D-Link額外的認證機制，以保證非官方釋出的文件無法更新在D-Link設備上,,,設備應驗證軟體更新的真實性和完整性,"The verdict PASS is assigned if:
+
+- each update mechanism is effective for the verification of authenticity of software updates; and
+- each update mechanism is effective for the verification of integrity of software updates; and
+- the verification of authenticity and integrity of software updates is performed by the DUT itself.
+
+The verdict FAIL is assigned otherwise."
+5.3-10," MC(11, 12)",,於經由網路介面傳遞更新時，裝置應經由信任關係查證各更新之真確性及完整性。,"注意：有效的信任關係包括：經過驗證的通訊通道、存在於要求設備擁有關鍵安全參數或密碼才能加入的網路、基於數位簽章的更新驗證或使用者確認。
+注意：信任關係的驗證對於確保未經授權的實體（例如裝置管理平台或裝置）無法安裝惡意程式碼至關重要。
+
+問題：
+如果實施更新機制並透過網路介面傳送更新：
+1. 設備如何驗證每次更新的真實性和完整性？
+2. 更新使用什麼信任關係？",D-Link 網站的所有通訊，包含firmware檔案的更新作業都是在全程TLS V1.2以上的安全加密方式進行，並採用最高等級的Cipher 符合FIPS 14--3 的安全強度模組進行，並且會隨時注意最先安全通報，檢查是否現行加密模組是否被發現漏洞，需要時即時更新。,,,設備應在網路傳遞更新時驗證其真實性和完整性。,"The verdict PASS is assigned if:
+
+- each update mechanism is effective for the verification of authenticity of software updates; and
+- each update mechanism is effective for the verification of integrity of software updates; and
+- the verification of authenticity and integrity of software updates is based on a valid trust relationship; and
+- every discovered network-based update mechanism is documented in the IXIT.
+
+The verdict FAIL is assigned otherwise."
+5.3-11, RC(12),,製造者宜以可辨識且明顯之方式通知使用者，要求安全更新連同關於藉由該更新所減輕風險的資訊。,"問題：
+如果實作更新機制：
+1. 製造商是否以可辨識且明顯的方式告知使用者：
+A) 需要安全性更新嗎？
+B) 提供有關該更新減輕的風險的資訊？",firmware的更新通知並無區分此次更新是否為安全性更新，每一次更新的通知都是建議需要更新的。每一次更新都會有更新的內容(包含解決的風險問題以及增強的部分),,,製造商應以明顯的方式通知用戶關於安全更新的資訊。,"The verdict PASS is assigned if for all update mechanisms:
+
+- the method to inform the user about required security updates is recognizable and apparent; and
+- the notification on required security updates includes information about the risks mitigated by the update.
+
+The verdict FAIL is assigned otherwise."
+5.3-12,RC(12),,當套用軟體更新，將中斷裝置之基本功能時，裝置宜通知使用者。,"對於消費者而言，設備在更新期間繼續運作可能至關重要，這意味著建議在更新可能會破壞功能時通知使用者非常重要。
+注意：如果通知是由關聯服務發出的，則不需要這樣做。
+範例：在更新期間，手錶將繼續顯示時間，家用恆溫器將繼續保持合理的溫度，智慧鎖將繼續鎖定和解鎖門。
+
+問題：
+如果實作更新機制：
+1. 當軟體更新的應用會擾亂設備的基本功能時，設備能否通知使用者？",GUI在更新期間會提示使用者將會重開機.,,,如果更新會中斷設備的基本功能，應通知用戶。,"The verdict PASS is assigned if for each update mechanism:
+
+- the user is appropriately notified about the disruption of basic functioning during the software update; and
+- the user notification is realized on the DUT itself.
+
+The verdict FAIL is assigned otherwise."
+5.3-13,M,,製造商應以對使用者易於理解、透明的方式公開定義的支援期限。,"消費者在購買設備時，希望能明確說明該期限的軟體更新支援。問題：
+1. 客戶如何獲知定義的支援期？ 
+用戶可以在哪裡找到這些資訊？",產品保固期間都根據當地國家法規要求訂定之，產品生命維護週期到時，會提前60天前公告在產品網頁上。,,,製造商應以透明的方式公開設備的支援期限。,"The verdict PASS is assigned if:  
+- the publication of software update support period is understandable and comprehensible for a user with limited technical knowledge.
+- the access to the resource for publishing the defined support period to the user is provided as described in the IXIT; and
+- the access to the resource for publishing the defined support period is unrestricted; and
+- the defined support period is published.
+The verdict FAIL is assigned otherwise."
+5.3-14,"RC(3, 4)",,對無法更新其軟體之受限制裝置，製造者宜以對使用者清晰透通的可存取方式，公布未更新軟體之理由闡述、硬體更換支援的期間及方法，以及定義之支援期間。,"問題：
+對於軟體元件不可更新的受限設備，製造商是否有清晰透明的例程向消費者發布以下內容：
+1. 沒有軟體更新的原因是什麼？
+2. 硬體更換支援的期限和方式？
+3. 明確的支持期限？","N/A,The device is not a contrained device. 
+",,,製造商應說明無法更新軟體的原因，並提供硬體更換的支援。,"The verdict PASS is assigned if:  
+- the publication of the rationale for absence of updates and hardware replacement support is understandable for a user with limited technical knowledge.
+- the access to the resource for publishing the rationale for absence of updates and hardware replacement support to the user is provided as described in the IXIT; and
+- the access to the resource for publishing the rationale for absence of updates and hardware replacement support is unrestricted; and
+- the rationale for the absence of software updates is published; and
+- the period and method of hardware replacement support is published; and
+- a support period is published.
+The verdict FAIL is assigned otherwise."
+5.3-15,"RC(3,4)",,對無法更新軟體之受限制裝置，產品宜為可隔離且硬體可更換。,"在某些情況下，設備無法修補。
+注意：對於受限設備，需要製定更換計劃並明確傳達給消費者。
+注意：該計劃通常會詳細說明何時需要更換技術以及何時結束對硬體和軟體的支援（如果適用）。
+
+對於軟體元件不可更新的受限設備，以下內容如何適用：
+1. 設備是否可隔離？
+2. 硬體可以更換嗎？","N/A,The device is not a contrained device. 
+",,,無法更新的設備應能被隔離，並且硬體應可更換。,"The verdict PASS is assigned if:  
+- the described method is suited for the isolation of the IoT product; and
+- the described method is suited for the replacement of the hardware.
+- the IoT product can be isolated successfully according to the described method for isolation; and
+- the hardware can be replaced successfully according to the described method for hardware replacement.
+The verdict FAIL is assigned otherwise."
+5.3-16,M,,消費者物聯網設備的型號名稱應通過設備上的標籤或通過實體介面清晰可識別。,問題：1. 使用者如何驗證設備型號名稱（透過設備上的標籤或透過實體介面）？,此產品的型號標籤上有相關的生產編號資訊。,,,設備應有清晰可識別的型號名稱。,"The verdict PASS is assigned if:  
+- the model designation of the DUT can be obtained clearly recognizable by labelling on the DUT or via a physical interface.
+- the model designation of the DUT can be extracted according to the described way of recognition; and
+- the model designation is available in simple text; and
+- the model designation is corresponding with the expected model designation according to the IXIT.
+The verdict FAIL is assigned otherwise."
+5.4-1,M,,持久存儲中的敏感安全參數應由設備安全的存儲。,"安全、可信任的儲存機制可用於保護敏感的安全參數。注意：此規定適用於持久性儲存（在裝置電源關閉後保留資料的任何資料儲存裝置），但製造商也可以對記憶體中的敏感安全參數實施類似的方法。
+
+問題：當設備有持久性儲存時：1. 設備如何確保敏感安全參數安全儲存？",所有關鍵機敏資訊都以AES 128 加密演算法處理存儲在機器的flash中。,,,敏感的安全參數要安全的持久性儲存,"The verdict PASS is assigned if:  
+- for every sensitive security parameter the declaration is consistent with its description; and
+- for every sensitive security parameter the claimed security guarantees match their minimal protection needs; and
+- every sensitive security parameter has a suitable protection mechanism for the claimed security guarantees; and
+- there is no indication, that the listed sensitive security parameters are incomplete.
+- for every sensitive security parameter there is no indication that the implementation of the corresponding protection scheme differs from its IXIT documentation.
+The verdict FAIL is assigned otherwise."
+5.4-2, MC(10),,對安全目的，於裝置中使用硬編碼唯一之每裝置識別資訊時，應以防止藉由實體、電氣或軟體等方式竄改的方式實作。,"問題：
+如果出於安全目的使用硬編碼的每個設備唯一識別：
+1. 身分如何實現以及如何實現以防止身分被竄改？
+A. 設備如何抵抗物理、電氣或軟體等手段的篡改？",出廠預設密碼不是硬編碼的，因為它是出廠設定參數的一部分並且不是預先寫入程式碼中的。 即使工廠型號和韌體相同，此參數對於每台機器來說都是不同的硬編碼。這與 MAC 位址的原因相同。,,,設備中使用硬編碼嵌入的每裝置的獨特識別資訊如何防止被竄改。,"The verdict PASS is assigned if:  
+- there is no indication that any hard-coded identity is not documented as such; and
+- for all hard-coded identities the security guarantee includes tamper-resistance; and
+- every hard-coded identity has a suitable protection mechanism for tamper-resistance.
+- for every hard-coded identity, there is no indication that the implementation of any protection scheme with respect to tamper-resistance differs from its IXIT documentation.
+The verdict FAIL is assigned otherwise."
+5.4-3,M,,關鍵安全參數不得硬編碼於使用設備軟體原始碼中。,設備和應用程式的逆向工程可以輕鬆發現憑證，例如軟體中硬編碼的使用者名稱和密碼。注意：此類憑證通常可以在原始程式碼中找到，這是眾所周知的不良做法。注意：也用於模糊或加密此硬編碼訊息的簡單混淆方法可能會被輕易破壞。這些憑證還可以是：- 允許在遠端服務中使用安全敏感功能的 API 金鑰，或者- 用於裝置通訊協定安全的私鑰。問題：1. 是否使用了軟體原始碼中硬編碼的關鍵安全參數？,D-Link 產品都會經過縝密的源碼安全檢查掃描，以確保沒有相關的 Hard-coded critical security parameters 在程式中,,,關鍵的安全參數不能硬編碼在設備軟體中。,"The verdict PASS is assigned if:  
+- there is no indication that any critical security parameter hard-coded in device software source code is not documented as such; and
+- for all critical security parameter hard-coded in device software source code, the ""Provisioning Mechanism"" ensures that it is not used during the operation of the DUT.
+- for all critical security parameter hard-coded in device software source code there is no indication that the application of the provisioning mechanism differs from its IXIT documentation.
+The verdict FAIL is assigned otherwise."
+5.4-4,M,,用於軟體更新的完整性和真實性檢查，以及保護設備軟體中相關服務的通訊的任何關鍵安全參數應為每個設備獨有，並且應具有降低對設備類別進行自動攻擊風險的機制。,"為設備配置獨特的關鍵安全參數有助於保護軟體更新的完整性和真實性以及設備與相關服務的通訊。如果使用全球關鍵安全參數，其洩漏可能會導致對其他物聯網設備的大規模攻擊，例如建立殭屍網路。
+範例：在同一裝置類別的每個裝置上部署不同的對稱金鑰，用於產生和驗證軟體更新的訊息認證碼。
+範例：設備使用製造商的公鑰來驗證軟體更新。 這不是關鍵的安全參數，並且不需要每個設備都是唯一的。
+
+問題：
+對於設備中用於以下用途的任何關鍵安全參數：
+- 軟體更新的完整性和真實性檢查
+；- 保護與設備軟體中相關服務的通訊：
+1. 這些關鍵安全參數是：
+A) 每個設備都是唯一的？B) 採用可降低針對各類設備的自動攻擊風險的機制進行生產？","D-Link Cloud 管理通訊使用每個設備唯一的設備證書，在設定過程中進行配置。
+管理和設定通道始終透過 TLS v1.2 或更新的連線進行保護，cipher  套件符合 FIPS 14--3。
+伺服器證書還可以透過設備的嵌入式證書頒發機構文件進行驗證。",,,用於軟體更新和通訊的安全參數應是每台設備獨特的。,"The verdict PASS is assigned if:
+
+- all critical security parameter where the purpose in ""Description"" indicates that the critical security parameters are used for integrity and authenticity checks of software updates or for protection of communication with associated services are documented as such in ""Generation Mechanism""; and
+- for all critical security parameters the ""Generation Mechanism"" ensures that the critical security parameters are unique per device and produced with a mechanism that reduces the risk of automated attacks against classes of devices.
+
+The verdict FAIL is assigned otherwise."
+5.5-1,M,,消費者物聯網設備應使用最佳實踐加密技術進行安全通訊。,安全控制的適當性和最佳實踐加密的使用取決於許多因素，包括使用情境。注意：由於安全性不斷發展，很難提供有關密碼學或其他安全措施的規範性建議，而不會面臨此類建議很快就會過時的風險。問題：1. 消費者物聯網設備使用什麼最佳實踐加密技術來安全通訊？,D-Link 網站的所有通訊，包含FW檔案的更新作業都是在全程TLS V1.2以上的安全加密方式進行，並採用最高等級的Cipher 符合FIPS 14--3 的安全強度模組進行，並且會隨時注意最先安全通報，檢查是否現行加密模組是否被發現漏洞，需要時即時更新。,,,設備應使用最佳的加密技術進行安全通訊。,"The verdict PASS is assigned if:  
+- the security guarantees are appropriate for the use case of secure communication; and
+- the mechanism is appropriate to achieve the security guarantees with respect to the use case; and
+- all used cryptographic details are considered as best practice for the use case; and
+- all used cryptographic details are not known to be vulnerable to a feasible attack for the desired security property.
+- there is no indication that any used cryptographic setting differs from its IXIT documentation.
+The verdict FAIL is assigned otherwise."
+5.5-2,R,,消費者 IoT 裝置宜使用經審查或經評估之實作，交付網路功能性及安全功能性，特別是密碼學領域。,"例如：開發和測試社群內的分散式軟體庫、經過認證的軟體模組以及硬體設備加密服務提供者都經過審查或評估。
+
+問題：
+1. 消費者物聯網設備是否使用經過審查或評估的實施來提供網路和安全功能？
+A）特別是在密碼學領域？",D-Link產品使用的加密套件都是目前安全無漏洞的版本，並隨時按照相關漏洞的發佈，需要時即時換版更新加密套件。,,,設備應使用經過審查或評估的加密技術。,"The verdict PASS is assigned if:  
+- all implementations of network and security functionalities are reviewed or evaluated; and
+- all review and evaluation methods cover the scope of the related implementation.
+- the name and version of every provided implementation matches the name and version provided in the related report; or
+- the necessary information is not obtainable, because the DUT does not provide any information on the implementation name and version.
+The verdict FAIL is assigned otherwise."
+5.5-3,R,,密碼演算法及基元宜為可更新。,"對於無法更新的設備，重要的是設備的預期壽命不超過設備使用的加密演算法的建議使用壽命（包括金鑰大小）。
+注意：這也稱為“加密敏捷性”。
+
+問題：
+1. 密碼演算法和原語是否可以更新？",D-Link產品使用的加密套件都是目前安全無漏洞的版本，並隨時按照相關漏洞的發佈，需要時即時換版更新加密套件。,,,加密演算法應可更新。,"The verdict PASS is assigned if:
+
+- for every software component indicating cryptographic usage an update mechanism is referenced; and
+- side effects of updating those algorithms and primitives are considered by the manufacturer.
+
+The verdict FAIL is assigned otherwise."
+5.5-4,R,,宜僅於鑑別介面後，方可經由網路介面於初始化狀態存取裝置功能性。,"注意：設備可能會因網路服務中的漏洞而受到損害。合適的身份驗證機制可以防止未經授權的訪問，並有助於設備的縱深防禦。
+
+問題：
+對於處於初始化狀態的網路介面：
+1. 是否確保只有在該介面上進行身份驗證後才能透過該介面存取設備功能？","措施：
+裝置初始狀態下，登入管理介面的唯一方式是使用裝置背面貼圖上的預設密碼。登入後，您將被迫按照步驟開始設定裝置的連線資訊並變更預設登入密碼。
+預設情況下，WAN 遠端管理也處於停用狀態。
+其他未定義的服務連接埠均關閉，機器的實體網口（LAN）僅是預設功能，可透過DHCP連接，即使初始化尚未完成。",,,只有在通過身份驗證後才能存取設備功能。,"The verdict PASS is assigned if:  
+- at least one authentication mechanism is referenced for every device functionality accessible via network interface in the initialized state; and
+- every authentication mechanism allows to discriminate between multiple authentication subjects and to reject authentication attempts based on invalid identities and/or authentication factors; and
+- the means used to protect an authentication mechanism provide the expected security guarantees and are resistant at attempts to compromise the mechanism; and
+- every authorization mechanism allows access to authenticated subjects with proper access rights; and
+- every authorization mechanism denies access to authenticated subjects with inadequate access rights and to unauthenticated subjects.
+- an unauthenticated subject, a subject with invalid identity or invalid credentials and an authenticated subject without appropriate access rights cannot access the functionality in the initialized state; and
+- an authenticated subject with appropriate access rights can access the device functionality in the initialized state; and
+- there is no indication that the mechanism to secure the authentication differs from its IXIT documentation.
+The verdict FAIL is assigned otherwise."
+5.5-5,M,,設備功能只有在認證存取之後允許透過網路介面進行配置安全相關修改。例外情況是設備所依賴的網路服務協定，製造商無法保證設備運行所需的配置。,注意：例外的協定包括 ARP、DHCP、DNS、ICMP 和 NTP。範例：與安全性相關的變更包括權限管理、網路金鑰配置和密碼變更。規定例外：設備所依賴的網路服務協定除外，製造商無法保證設備運作需要什麼配置。問題：當規定例外情況不適用時：當設備功能允許透過網路介面對組態進行與安全相關的變更時：A) 如何確保只有在驗證後才能存取設備功能？,D-Link 網站的所有通訊，包含FW檔案的更新作業都是在全程TLS V1.2以上的安全加密方式進行，並採用最高等級的Cipher 符合FIPS 14--3 的安全強度模組進行，並且會隨時注意最先安全通報，檢查是否現行加密模組是否被發現漏洞，需要時即時更新。,,,只有在認證後才能通過網路修改設備的安全設置，除非設備依賴的協定無法保證運行所需配置。,"The verdict PASS is assigned if:  
+- at least one authentication mechanism is referenced for every device functionality accessible via network interface that allows security-relevant changes; and
+- every authentication mechanism allows to discriminate between multiple authentication subjects and to reject authentication attempts based on invalid identities and/or authentication factors; and
+- the means used to protect an authentication mechanism provide the expected security guarantees and are resistant at attempts to compromise the mechanism; and
+- every authorization mechanism allows access to authenticated subjects with proper access rights; and
+- every authorization mechanism denies access to authenticated subjects with inadequate access rights and to unauthenticated subjects.
+- an unauthenticated subject, a subject with invalid identity or invalid credentials and an authenticated subject without appropriate access rights cannot access the functionality; and
+- an authenticated subject with appropriate access rights can access the device functionality; and
+- there is no indication that the mechanism to secure the authentication differs from its IXIT documentation; and
+- every discovered network-based communication mechanism is documented in the IXIT.
+The verdict FAIL is assigned otherwise."
+5.5-6,R,,傳輸中之關鍵安全參數宜以適切的技術、風險及使用性質之方式加密。,"此要求主要適用於：
+- 設備製造商、物聯網服務供應商、行動應用程式開發商。
+關鍵安全參數：
+- 安全敏感數據，包括任何遠端管理和控制。
+注意：強烈鼓勵使用開放的、經過同儕審查的網路標準。
+範例：Blowfish、AES、RC4、DES、RC5 和 RC6 是對稱加密的範例。最廣泛使用的對稱演算法是 AES-128、AES-192 和 AES-256。
+範例：流行的非對稱金鑰加密演算法包括 EIGamal、RSA、DSA、橢圓曲線技術、PKCS。
+範例：SSL/TLS 同時使用非對稱和對稱加密，快速查看由受信任的憑證授權單位 (CA) 頒發的數位簽章 SSL 憑證。
+
+問題：
+如果關鍵安全參數在傳輸過程中被加密（在傳輸網路時）：
+1. 加密是否適合技術、風險和用途的特性？","1. 本機身分驗證透過 HMAC-SHA256 Challenge 使用使用者設定的密碼完成。透過 HTTPs TLS v1.2 或更新的連線保護通道，cipher  套件符合 FIPS 14--3
+2. 雲端管理通訊也透過 TLS v1.2 或更新的連線進行保護，cipher  套件符合 FIPS 14--3。 設備與雲端之間透過設備證書進行身份驗證。 」",,,傳輸中的關鍵安全參數應加密。,"The verdict PASS is assigned if:  
+- the security guarantees are appropriate for the use case of secure communication; and
+- the mechanism is appropriate to achieve the security guarantees with respect to the use case; and
+- all used cryptographic details are considered as best practice for the use case; and
+- all used cryptographic details are not known to be vulnerable to a feasible attack.
+- there is no indication that any used cryptographic setting differs from its IXIT documentation.
+The verdict FAIL is assigned otherwise."
+5.5-7,M,,消費者物聯網設備應保護透過遠端存取網路介面的關鍵安全參數的機密性。,可以使用加密的通訊通道或有效負載加密來實現機密性保護。注意：加密保護通常是使用至少與傳輸的密鑰材料一樣強大的協定或演算法來完成的，但是也可以使用其他緩解措施，例如需要特殊的接近度。問題：透過遠端可存取的網路介面傳送關鍵安全參數時：1. 如何確保消費性物聯網設備保護這些參數的機密性？,D-Link 網站的所有通訊，包含FW檔案的更新作業都是在全程TLS V1.2以上的安全加密方式進行，並採用最高等級的Cipher 符合FIPS 14--3 的安全強度模組進行，並且會隨時注意最先安全通報，檢查是否現行加密模組是否被發現漏洞，需要時即時更新。,,,設備應保護通過遠端網路介面傳輸的關鍵安全參數。,"The verdict PASS is assigned if:  
+- the security guarantees are appropriate for the use case of secure communication; and
+- the mechanism is appropriate to achieve the security guarantees with respect to the use case; and
+- all used cryptographic details are considered as best practice for the use case; and
+- all used cryptographic details are not known to be vulnerable to a feasible attack.
+- there is no indication that any used cryptographic setting differs from its IXIT documentation.
+The verdict FAIL is assigned otherwise."
+5.5-8,M,,製造商應遵循與設備相關的關鍵安全參數的安全管理流程。,注意：對關鍵安全參數使用開放的、同儕審查的標準（通常稱為「金鑰管理」）受到強烈鼓勵。問題：當關鍵安全參數與設備相關時：1. 製造商是否遵循安全管理流程？如何管理關鍵安全參數（用於金鑰管理，例如金鑰交換、金鑰儲存和金鑰使用）？,"按照D-Link的秘鑰管理流程生成、存儲和傳輸安全參數。 安全參數隨機生成后，寫入到設備中，同時自動同步到伺服器，操作人員不感知密碼，與設備硬體參數進行哈希後才會用於認證和加解密。當產品EOL之後, 我們會從git server移除相關的key, 並且將他們離線存放",,,製造商應遵循設備相關的關鍵安全參數管理流程。,"The verdict PASS is assigned if:
+
+- the secure management covers the whole life cycle of a critical security parameter according to its processes; and
+- a confirmation for the implementation is given.
+
+The verdict FAIL is assigned otherwise."
+5.6-1,M,,應禁用所有未使用的網路和邏輯介面。,範例：預設情況下，無法從 WAN 存取應從 LAN 存取的管理 UI。注意：邏輯介面 (LIF) 是由 IP 位址組成的軟體實體，該 IP 位址與許多屬性（例如角色、主連接埠、防火牆策略、主節點、路由組和連接埠清單）相關聯。用於故障轉移目的。問題：1. 如何確保停用所有未使用的網路和邏輯介面？,"有一個 LAN 的乙太網路、2.4G 和 5G Wi-Fi 接口，需要在設備使用過程中運行，以根據設備的意圖使用提供互聯網訪問。
+
+沒有其他接口沒有被使用過。",,,應禁用所有未使用的網路和邏輯介面。,"The verdict PASS is assigned if:  
+- for every network or logical interface that is marked as enabled in the IXIT documentation, there is a purpose that provides a valid justification for the interface to be enabled.
+- every documented network or logical interface that is marked as disabled in the IXIT documentation is found to be disabled or not accessible on the DUT; and
+- every discovered network and logical interface is documented in the IXIT.
+The verdict FAIL is assigned otherwise."
+5.6-2,M,,在初始化狀態下，設備的網路介面應盡量減少未經身份驗證的安全相關訊息洩露。,安全相關資訊可以在建立連接時由設備共享，並可用於識別易受攻擊的設備。範例：在整個 IP 位址空間中尋找易受攻擊的裝置時，安全相關資訊可以是有關裝置配置、核心版本或軟體版本的資訊。問題：當設備處於初始化狀態時：1. 設備的網路介面如何確保最大限度地減少未經身份驗證的安全相關資訊的洩漏？,"在初始化階段，在首次設定驗證之前，僅
+1. mDNS僅包含用於APP設定引導和認證所需的資訊。",,,設備的網路介面應減少未經身份驗證的安全相關資訊洩露。,"The verdict PASS is assigned if:  
+- every security-relevant information disclosed by the interface without authentication in the initialized state is documented as such; and
+- all security-relevant information disclosed by the interface without authentication in the initialized state is necessary for the operation of the DUT.
+- for every network interface, only security-relevant information can be observed that is described in the IXIT
+The verdict FAIL is assigned otherwise."
+5.6-3,R,,裝置硬體不宜將實體介面非必要暴露於攻擊。,"攻擊者可以使用實體介面來破壞設備上的韌體或記憶體。
+注意：「不必要」是指製造商對用於使用者功能或調試目的的開放介面的好處的評估。
+範例：僅用於為裝置供電的微型 USB 連接埠應進行實體配置，以免也允許命令或偵錯操作。
+
+問題：
+1. 設備硬體不會不必要地將實體介面暴露給攻擊嗎？","調試串列埠應去除MP已有的PIN碼。 。 即使使用特殊太觸板點，也只需要特殊命令或獨特的訪問act/pwd即可訪問，而輸入功能僅用於方便研發調試。這些特殊命令只有公司內部人士知道。
+
+板上不會不必要地暴露實體介面。",,,設備硬體不應暴露不必要的攻擊介面。,"The verdict PASS is assigned if:  
+- for every physical interface that does not require exposure, the protection means of the interface includes protection by the device casing or similar measures; and
+- for every air interface that does not require exposure, the interface is disabled; and
+- for every physical interface that does not require permanent exposure, the interface is disabled for all periods in which the use of the interface is not required.
+- all exposed physical interfaces on the DUT are described as ""required"" or ""intermittently required"" in the IXIT
+- all physical interfaces that are identified as never requiring exposure in the IXIT documentation, the interface is protected by the device casing or similar measures; and
+- all air interfaces that are enabled on the DUT are marked as ""required"" or ""intermittently required"" in the IXIT
+- for all physical interfaces that are marked as ""intermittently required"" in the IXIT documentation, the interface is disabled for all periods in which the use of the interface is not required.
+The verdict FAIL is assigned otherwise."
+5.6-4, MC(13),,若除錯介面係可實體存取，則應於軟體中停用。,"範例：透過裝置上的引導程式軟體停用 UART 串​​列介面。由於此停用，沒有登入提示，也沒有可用的互動式功能表。
+
+問題：
+當調試介面可物理存取時：
+1. 軟體中是否禁用了調試介面？","調試串列埠應去除MP已有的PIN碼。 。 即使使用專用工具觸摸板子上的點，也只需要特殊的命令或唯一的訪問act/pwd即可訪問，並且輸入功能僅用於方便研發調試。這些特殊命令只有公司內部人士知道。
+
+
+板上不會不必要地暴露實體介面。",,,如果除錯介面可被實體存取，應在軟體中停用。,"The verdict PASS is assigned if:  
+- for every accessible physical debug interface, there is a software mechanism described to disable the interface; and
+- for every accessible physical debug interface that is not indicated as intermittently required, the interface is permanently disabled; and
+- for every accessible physical debug interface that is indicated as intermittently required, the interface is disabled by default.
+- every accessible physical debug interface is disabled; and
+- every physical debug interface is indicated as such in the IXIT.
+The verdict FAIL is assigned otherwise."
+5.6-5,R,,對裝置之預期用途或運作，製造者宜僅啟用其所使用或所要求的軟體服務。,"範例：製造商不會為設備提供預期用途不需要的任何後台進程、核心擴充、命令、程式或工具。
+
+問題：
+1. 製造商是否僅啟用設備預期用途或操作所使用或所需的軟體服務？",所有服務均需設備購買意向,,,製造商應僅啟用所需的軟體服務。,"The verdict PASS is assigned if:
+
+- for every enabled by default software service, the service is necessary for the intended use or operation of the DUT.
+
+The verdict FAIL is assigned otherwise."
+5.6-6,R,,程式碼宜最小化服務/裝置運作所必要之功能性。,"範例：「死」或未使用的程式碼應被刪除且不被視為良性。
+
+問題：
+1. 程式碼是否會最小化到服務/設備運作所需的功能？",是的，所有不必要的功能代碼都不應該存在或被停用。所有版本的D-Link FW必須通過程式碼安全掃描和檢查，並通過黑盒安全測試和漏洞掃描後才能發布韌體。,,,程式碼應最小化至必要的功能。,"The verdict PASS is assigned if:
+
+- the described code minimization techniques are appropriate for reducing code to the necessary functionality.
+
+The verdict FAIL is assigned otherwise."
+5.6-7,R,,軟體宜以最小必要特殊權限運行，同時考量安全及功能性。,"軟體應以適當的權限運作。
+範例：沒有守護程式/程式以“root”權限運行。
+這種風險可以透過以下方式降低：
+- 可以透過堆疊金絲雀、ASLR 等機制來緩解旨在破壞記憶體的裝置軟體攻擊。
+- 製造商可以使用可用的平台安全功能來幫助進一步降低風險。
+- 減少它們運行的權限並最小化程式碼也有助於減輕這種風險。
+
+問題：
+1. 軟體是否會以最少的必要權限運作？
+A) 兼顧安全性與功能性？",D-Link 設備僅有一個管理帳號admin來設定DUT，無法產生額外的帳號與相關的功能，而這個帳號的登入都經過安全的管控，已出廠唯一預設密碼初始登入，之後會強制修改密碼。,,,軟體應以最小必要權限運行，同時考量安全和功能性。,"The verdict PASS is assigned if:
+
+- the described privilege control mechanisms are adequate to facilitate the principles of separation of duty, need to know and minimization of privilege.
+
+The verdict FAIL is assigned otherwise."
+5.6-8,R,,裝置宜納入用於記憶體之硬體層級存取控制機制。,"軟體漏洞通常利用記憶體中缺乏存取控制來執行惡意程式碼。存取控制機制限制了設備記憶體中的資料是否可以被執行。合適的機制包括 MMU（記憶體管理單元）或 MPU、可執行空間保護（例如 NX 位元）、記憶體標記和可信任執行環境等技術。
+
+問題：
+1.設備是否有硬體級的記憶體存取控制機制？","有, CPU有內建MMU.",,,設備應納入用於記憶體的硬體層級存取控制機制。,"The verdict PASS is assigned if:
+
+- for every hardware-level access control mechanism for memory, the mechanism is implemented at the level of the hardware; and
+- for every hardware-level access control mechanism for memory, the mechanism allows to control access to memory.
+
+The verdict FAIL is assigned otherwise."
+5.6-9,R,,製造者宜依循安全開發過程，部署於裝置上之軟體。安全開發過程，包括使用版本控制或啟用與安全相關之編譯器選項(例：堆疊保護)，能協助確保軟體產出更安全。製造者於使用支援之工具鏈時，可使用此等選項。,"安全的開發過程，包括使用版本控製或啟用與安全相關的編譯器選項（例如堆疊保護）可以幫助確保軟體製品更加安全。製造商可以在使用支援它們的工具鏈時使用這些選項。
+
+問題：
+1. 製造商是否遵循設備上部署的軟體的安全開發流程？",Yes， D-Link 產品生命週期都是在IEC 62443-4-1的規範下進行研發，並且每年進行內部稽核程序，每2年延請外部獨立機構進行稽核，確認產品的研發過程與生命週期管理都是符合規範的。附件：IEC62443-4-1 Dlink Certificate_copy.pdf,,,製造商應依循安全開發過程，包括使用版本控制和編譯器選項。,"The verdict PASS is assigned if the secure development covers:
+
+- security training of developers; and
+- the requirement and design phases of the software; and
+- secure coding techniques; and
+- security tolling for the implementation phase; and
+- security testing; and
+- security reviews; and
+- archival of assets and information relevant to maintaining security of the software; and
+- secure deployment; and
+- if applicable, handling of third-party software providers; and
+- a confirmation for the implementation is given.
+
+The verdict FAIL is assigned otherwise."
+5.7-1,R,,消費者 IoT 裝置宜使用安全啟動機制查證其軟體。,"注意：硬體信任根是提供強證明作為安全啟動機制一部分的一種方法：
+- 硬體信任根是系統的一個元件，所有其他元件都從中獲得「信任」 - 即加密的來源
+對該系統的信任。
+- 為了實現其功能，硬體信任根是可靠的並且能夠抵抗物理和邏輯篡改，因為沒有機制可以確定組件是否發生故障或被更改。
+
+問題：
+消費者物聯網設備使用什麼來透過安全啟動機制驗證其軟體？",在bootloader中對執行的固件進行校驗，校驗不過的程式不能啟動。,,,設備應使用安全啟動機制驗證其軟體。,"The verdict PASS is assigned if:  
+- every secure boot mechanism provides the security guarantees of integrity and authenticity of the device software; and
+- every secure boot mechanism and its detection mechanisms is suitable to provide the described security guarantee.
+- there is no indication, that the implementation of any secure boot mechanism differs from its IXIT
+The verdict FAIL is assigned otherwise."
+5.7-2,R,,若偵測出對軟體之未經授權的變更，則裝置宜對使用者及/或管理者發出警示，且不宜連接至比執行警示功能所必要之網路更廣的網路。,"例：房間內的恆溫器可以有使用者模式；此模式可防止更改其他設定。如果偵測到對軟體進行未經授權的更改，則向管理員發出警報是適當的，因為管理員有能力根據警報採取行動（而使用者則沒有）。
+注意：如果設備無法成功執行此操作或攻擊者能夠重複造成這種影響，則強制設備恢復到已知良好狀態的攻擊可能會帶來 DoS 風險。
+
+問題：
+如果偵測到對軟體進行未經授權的變更：
+1. 設備會提醒消費者註意該問題嗎？
+2. 設備會向管理員發出此問題的警報嗎？
+3. 設備是否不會連接到比執行警報功能所需的網路更廣泛的網路？
+
+如果沒有實現，那麼為什麼沒有實現（詳細說明）？",所有的修改都會檢查授權，通過才可操作。,,,如果檢測到未經授權的變更，設備應警示用戶，且不應連接到更廣的網路。,"The verdict PASS is assigned if:  
+- the described way of user notification is sufficient to inform the user and/or administrator about unauthorized changes in device software; and
+- every described notification functionality is necessary for the user notification in case of detecting unauthorized software changes.
+- there is no indication that the implementation of any alerting mechanism of the DUT differs from its IXIT documentation; and
+- only communication to wider networks is detected after detection of unauthorized changes, that is described as necessary.
+The verdict FAIL is assigned otherwise."
+5.8-1,R,,宜使用最佳實務密碼學保護於裝置與服務間傳輸之個人資料的機密性，特別是相關聯服務。,"問題：
+1. 設備和服務（尤其是相關服務）之間傳輸的個人資料的機密性是否會受到最佳實踐加密技術的保護？",D-Link 除了登入的帳號密碼之外，不會存儲有關個人隱私資料。,,,應使用最佳加密技術保護設備和服務間傳輸的個人資料。,"The verdict PASS is assigned if:  
+- the security guarantees are appropriate for the use case of communicating personal data; and
+- all used cryptographic details are considered as best practice for the use case; and
+- the mechanism is appropriate to achieve the security guarantees with respect to the use case; and
+- all used cryptographic details are not known to be vulnerable to a feasible attack.
+- there is no indication that any used cryptographic setting differs from its IXIT documentation.
+The verdict FAIL is assigned otherwise."
+5.8-2,M,,設備和相關服務之間通訊的敏感個人資料的機密性應受到保護，並採用適合該技術和使用情境的加密方法。,開展安全和資料保護影響評估可以幫助製造商做出適當的選擇。注意：「敏感個人資料」是指揭露後極有可能對個人造成傷害的資料。 被視為「敏感個人資料」的內容因裝置和用例而異：範例：家庭安全攝影機的視訊串流、支付資訊、通訊資料內容和帶時間戳記的位置資料。注意：此上下文中的關聯服務通常是雲端服務。 此外，這些服務受到製造商的控製或影響。 這些服務通常不由使用者操作。問題：應保護設備和相關服務之間傳輸的敏感個人資料的機密性：1. 在密碼學適合技術和用途的屬性的情況下，使用什麼密碼學？,"設備上不會保存任何個人隱私資料。
+使用 TLS、HTTPS。
+加密演算法包括：
+AES、RSA、MD5、SHA256",,,設備和服務間的敏感個人資料應加密保護。,"The verdict PASS is assigned if for all communication mechanisms used for communicating sensitive personal data between the device and an associated service:
+
+- the security guarantees are appropriate for the use case of communicating sensitive personal data between the device and an associated service; and
+- the mechanism is appropriate to achieve the security guarantees with respect to the use case; and
+- all used cryptographic details are considered as best practice for the use case; and
+- all used cryptographic details are not known to be vulnerable to a feasible attack.
+
+The verdict FAIL is assigned otherwise."
+5.8-3,M,,設備的所有外部感測功能應以易於理解和透明的方式進行文件化，以供使用者方便查閱。,範例：外部感測功能可以是光學或聲學感測器。（本文件第 6 條（消費者物聯網的資料保護條款）包含專門用於保護個人資料的條款。）問題：1. 如何確保設備的所有外部感測功能都以對使用者清晰透明的可存取方式記錄？,無外部感測能力,,,設備的所有外部感測功能應以透明的方式進行文件化。,"The verdict PASS is assigned if:
+
+- the documentation is accessible according to the IXIT; and
+- the documentation is understandable for a user with limited technical knowledge; and
+- each obvious sensing capability of the DUT is documented for the user.
+
+The verdict FAIL is assigned otherwise."
+5.9-1,R,,宜於消費者 IoT 裝置與服務中建立韌性，考量資料網路與電源中斷之可能性。,"注意：預計必要的彈性等級是成比例的，並由使用情況決定，並考慮到依賴系統、服務或設備的其他人，因為中斷可能會產生比預期更廣泛的影響。
+
+問題：
+考慮到數據網路和電力中斷的可能性：
+1. 消費者物聯網設備和服務是否會內建彈性？","A: Router本身沒有電池, 電力中斷就會停止運作. NAT Router是網路節點, 停止運作的時候所有透過它對外的網路都會中斷. 如果需要保有彈性, 則必須在使用者端對網路架構做相應的設計.",,,設備應考量資料網路與電力中斷的情況，建立韌性。,"The verdict PASS is assigned if:  
+- the resilience mechanisms are appropriate to protect against network connectivity and power outages; and
+- every resilience mechanism is appropriate to achieve its security guarantees.
+- there is no indication that the operation of the resilience mechanisms during network connectivity and power outages differs from its IXIT documentation.
+The verdict FAIL is assigned otherwise."
+5.9-2,R,,消費者 IoT 裝置於失去網路接取權之情況下，宜保持運作及本地功能性，且宜於斷電復原的情況下澈底復原。,"注意：「乾淨地恢復」通常涉及以相同或改進的狀態恢復連接和功能。
+
+問題：
+在網路遺失的情況下：
+1. 消費者物聯網設備是否會繼續運作並在本地運作？
+在斷電恢復的情況下：
+2.消費性物聯網設備會完全恢復嗎？","1) 對外網路中斷時, LAN功能依舊會運作.
+2) 電力中斷會導致設備停止運作, 但是當電力恢復時設備也會立刻恢復運作.",,,設備在失去網路連線時應保持運作及本地功能。,"The verdict PASS is assigned if:  
+- the resilience mechanisms are appropriate to protect against network connectivity and power outages; and
+- every resilience mechanism is appropriate to achieve its security guarantees; and
+- the resilience mechanisms are appropriate to ensure that the DUT remains operating and locally functional in the case of a loss of network connectivity; and
+- the resilience mechanisms are appropriate to ensure that the DUT recovers cleanly after a loss of power.
+- there is no indication that the operation of the resilience mechanisms during network connectivity or power outages differs from its IXIT documentation; and
+- there is no indication that the DUT does not remain operating and locally functional after the loss of network connectivity; and
+- there is no indication that the DUT does not resume the connectivity and functionality after a loss of power in the same or improved state as before.
+The verdict FAIL is assigned otherwise."
+5.9-3,R,,消費者 IoT 裝置宜以預期可操作且穩定之狀態，並以有秩序的方式連接至網路，同時考量基礎設施之能力。,"注意：消費者依賴物聯網系統和設備來實現日益重要的與安全相關或影響生活的用例。如果網路中斷，保持服務在本地運作是提高彈性的措施之一。
+注意：有序重新連線意味著採取明確的步驟來避免來自大量 IoT 裝置的同時請求，例如軟體更新或重新連線。這種顯式步驟可以包括根據增量退避機制在重新連接嘗試之前引入隨機延遲。
+例如：智慧家庭在斷電後失去了與網路的連線。當網路連接恢復時，家庭中的設備會在隨機延遲後重新連接，以最大限度地減少網路使用率。
+範例：提供更新後，製造商會大量通知設備，以防止它們同時下載更新。
+注意：其他措施可以包括在相關服務中建置冗餘以及緩解分散式阻斷服務 (DDoS) 攻擊或訊號風暴。
+
+問題：
+考慮基礎設施的能力：
+1. 消費者物聯網設備是否會以預期、可運作且穩定的狀態連接到網路？
+2）消費者物聯網設備是否會有序地連接到網路？","1) 是, 軟體的執行有固定的執行順序.
+2) 以FOTA update為例, 設備在運作時, 已經預設了當地時間03:30會執行一次檢查並下載. 但是在軟體設計的時候有考慮到分散負載, 所以會在執行時加上一個隨機的等候時間.",,,設備應以穩定狀態連接網路，考量基礎設施的能力。,"The verdict PASS is assigned if:  
+- every communication mechanism provides appropriate measures to achieve a connection to a network in an orderly fashion; and
+- every communication mechanism provides appropriate measures to support the operation of a stable network.
+- there is no indication that the operation of any implemented resilience measure differs from its IXIT
+The verdict FAIL is assigned otherwise."
+5.10-1, RC(6),,若蒐集由消費者 IoT 裝置及服務蒐集遙測資料(諸如使用及量測資料)，則宜檢查安全是否異常。,"注意：設備可以感知設備遙測資料中的異常狀況。設備可以檢測時間序列資料中的尖峰和低谷、正趨勢和負趨勢、水平變化以及值的動態範圍的變化。異常可以根據需要進行客製化和訓練。
+
+問題：
+如果遙測資料是從消費者物聯網設備和服務收集的，例如使用情況和測量資料：
+1.是否會進行安全異常檢查？",,,,如果蒐集遙測資料，應檢查安全是否異常。,"The verdict PASS is assigned if:
+
+- at least one security anomaly examination is provided; and
+- each security anomaly examination is suited for examining the associated telemetry data for a security anomaly.
+
+The verdict FAIL is assigned otherwise."
+5.11-1,M,,應提供使用者功能，以便使用者能夠輕鬆地從設備中刪除其資料。,注意：本文中的使用者資料是指儲存在物聯網裝置上的所有個人數據，包括個人資料、使用者配置和加密資料，例如使用者密碼或金鑰。問題：1. 如何提供消費者能夠以簡單的方式輕鬆從設備中刪除使用者資料的功能？,"對於設備本身的數據，可以透過以下步驟完成完整的資料擦除：
+1. 硬體重設按鈕
+2. APP的裝置移除按鈕
+3. WebGUI的設備重置按鈕
+對於雲端帳戶，可以透過給定的帳戶入口網站從 APP 下載或刪除資料。",,,應提供用戶刪除其資料的功能。,"The verdict PASS is assigned if:  
+- at least one simple functionality to erase user data from the device is provided to the user; and
+- the described functionality is adequate to erase the targeted user data from the device; and
+- personal data, user configuration and cryptographic material is covered by the functionalities to erase user data from the device.
+- the initiation and interaction of the user is consistent with the IXIT; and
+- there is no indication that the corresponding user data is not erased successfully.
+The verdict FAIL is assigned otherwise."
+5.11-2,R,,宜向消費者提供裝置上之功能性，以便能以簡單方式由相關聯服務中移除個人資料。,"注意：此類功能適用於所有權轉讓、消費者希望刪除個人資料、消費者希望從設備中刪除服務和/或消費者希望處置設備時的情況。預計此類功能符合適用的資料保護法，包括 GDPR。
+注意：「輕鬆」刪除個人資料意味著完成該操作所需的步驟最少，並且每個步驟的複雜性最小。
+注意：此類功能可能會成為攻擊媒介。
+
+問題：
+1. 設備上是否為消費者提供了可以透過簡單方式從相關服務中刪除個人資料的功能？",D-Link 除了登入的帳號密碼之外，不會存儲有關個人隱私資料。,,,應向用戶提供移除個人資料的簡單方法。,"The verdict PASS is assigned if:  
+- at least one simple functionality to remove personal data from associated services is provided to the user; and
+- every associated service storing personal data is covered by a simple deletion functionality.
+- the initiation and interaction of the user is consistent with the IXIT; and
+- there is no indication that the corresponding personal data stored on the associated service is not removed successfully.
+The verdict FAIL is assigned otherwise."
+5.11-3,R,,宜對使用者明確說明如何刪除其個人資料。,"問題：
+1. 是否會向消費者明確說明如何刪除其個人資料？",D-Link 除了登入的帳號密碼之外，不會存儲有關個人隱私資料。,,,應明確說明如何刪除個人資料。,"The verdict PASS is assigned if every deletion functionality:
+
+- is covered by the documentation; and
+- is documented in a concise manner and includes the necessary steps to be taken to delete personal data.
+
+The verdict FAIL is assigned otherwise."
+5.11-4,R,,宜對使用者清楚確認個人資料已由服務、裝置及應用程式中刪除。,"消費者物聯網設備經常會改變所有權，最終會被回收或處置。可以提供允許消費者保持控制並從服務、設備和應用程式中刪除個人資料的機制。當消費者希望完全刪除其個人資料時，他們也希望追溯刪除備份副本。
+例如：使用者可以在租用的公寓內臨時使用消費者物聯網設備。對設備進行出廠重置可能會刪除配置設定或停用設備，從而損害公寓業主和未來的用戶。恢復原廠設定（從 IoT 裝置中刪除所有資料）並不是在此類共用使用上下文中刪除單一使用者的個人資料的適當方法。
+注意：ETSI EN 303 645 的附錄 A 包含設備狀態的範例模型，包括每個狀態的資料儲存。
+注意：從裝置或服務中刪除個人資料通常不能簡單地透過將裝置重設回出廠預設狀態來實現。在許多用例中，消費者不是裝置的擁有者，但希望從裝置和所有相關服務（例如雲端服務或行動應用程式）中刪除自己的個人資料。
+
+問題：
+1. 是否會向消費者明確確認個人資料已被刪除？
+A) 來自服務？
+B) 來自設備？
+C) 來自應用程式？","A: 此設備不會自動記錄使用者資訊.
+使用者操作APP時註冊的帳號, 可透過GUI移除.",,,應確認個人資料已從服務、設備和應用中刪除。,"The verdict PASS is assigned if:
+
+- for every deletion functionality a clear confirmation is provided, that the corresponding data is deleted.
+
+The verdict FAIL is assigned otherwise."
+5.12-1,R,,消費者 IoT 裝置之安裝及維護宜由使用者做最少決定，且宜依循有關可用性的安全最佳實務作法。,"注意：這是為了防止消費者混淆或配置錯誤引起的安全問題，有時是由於使用者介面的複雜性和不良或不明確的設計引起的。
+
+問題：
+消費性物聯網的安裝與維護：
+1. 涉及用戶的決策最少？
+2. 遵循可用性方面的安全最佳實務？","A: 目前的GUI設計極為精簡, 使用者能設定的範圍並不大.",,,設備的安裝和維護應由使用者做最少決定，並遵循安全最佳實踐。,"The verdict PASS is assigned if:  
+- every decision taken by the user is necessary regarding the usage in the operational environment; and
+- every default value for a decision taken by the user follows security best practice.
+- every decision taken by the user is prominently requested during the installation and maintenance flows; and
+- every decision taken by the user is understandable for a user with limited technical knowledge; and
+- every decision taken by the user during installation or maintenance on the DUT is as described in the IXIT.
+The verdict FAIL is assigned otherwise."
+5.12-2,R,,製造者宜提供使用者有關如何安全設置其裝置之指引。然而理想之過程為涉及最少人工介入，並自動達成安全組態。,"注意：但是，理想的情況是涉及最少人工幹預並自動實現安全配置的過程。
+
+問題：
+1. 製造商是否會提供使用者如何安全設定設備的指導？","A: 設備出廠的預設值已經預設為NAT模式, 使用者直接使用即可擁有基本的安全性. 使用介面都使用精簡方式 引導使用者安裝使用 ",,,製造商應提供安全設置指引，過程應最少人工介入並自動達成安全配置。,"The verdict PASS is assigned if:
+
+- every security-relevant user decision is covered by the documentation; and
+- for every security-relevant user decision a recommendation on how to achieve a secure setup is given.
+
+The verdict FAIL is assigned otherwise."
+5.12-3,R,,製造者宜提供使用者有關如何核對其裝置是否安全設置之指引。,"注意：透過正確解決使用者介面的複雜性和不良設計，可以減少甚至有時消除由消費者困惑或錯誤配置引起的安全問題。向用戶提供有關如何安全配置設備的清晰指導也可以減少他們面臨威脅的機會。
+注意： 一般情況下，安全設定設備的平均開銷高於檢查設備是否安全設定的平均開銷。從流程的角度來看，安全設定的檢查很大程度上可以由製造商透過與設備遠端通訊的自動化流程來進行。這種自動化過程的一部分可能包括驗證設備建立安全通訊通道的能力。
+
+問題：
+1. 製造商是否會提供使用者如何檢查其設備是否安全設定的指導？","A: 設備出廠的預設值已經預設為NAT模式, 使用者直接使用即可擁有基本的安全性. 使用介面都使用精簡方式 引導使用者安裝使用 ",,,製造商應提供指引，讓用戶核對其設備是否安全設置。,"The verdict PASS is assigned if:
+
+- every step for checking the securely set up is covered by the documentation; and
+- the application of the check for securely set up according to the documentation results in an outcome and there is an indication that the result is reasonable.
+
+The verdict FAIL is assigned otherwise."
+5.13-1,M,,消費者物聯網設備軟體應驗證通過使用者介面或通過應用程式介面（API）或在服務和設備中的網路之間傳輸的資料輸入。,透過不同類型的介面傳輸的格式不正確的資料或代碼可能會破壞系統。攻擊者或測試人員可以使用模糊器等自動化工具來利用由於不驗證資料而出現的潛在漏洞和弱點。範例：設備接收到的資料不是預期類型，例如可執行程式碼而不是使用者輸入的文字。 設備上的軟體已編寫為對輸入進行參數化或“轉義”，從而防止運行此程式碼。例如：溫度感測器接收到超出範圍的數據，而不是嘗試處理此輸入，而是識別出它超出了可能的範圍並被丟棄，並在遙測中捕獲事件。問題：1. 如何確保消費者物聯網設備軟體透過以下方法之一驗證資料輸入？A) 使用者介面。B) 透過應用程式介面 (API) 傳輸。C) 服務與設備中的網路之間,"本機Web管理介面和API將驗證輸入格式以防止注入。
+韌體在開發過程中也進行了第三方黑盒測試，包括 API 注入測試。",,,設備軟體應驗證通過用戶介面或API的數據輸入。,"The verdict PASS is assigned if:  
+- the data input validation methods cover data input via user interfaces, transmitted via APIs and between networks in services and devices; and
+- every described data input validation method is effective for validating the corresponding data input.
+- there is no indication that any data input validation does not protect against the processing of unexpected data input; and
+- every discovered user interface is documented in the IXIT; and
+- every discovered remotely accessible API is documented in the IXIT.
+The verdict FAIL is assigned otherwise."
+6.1,M,,製造商應向消費者提供清晰透明的資訊，說明每個設備和服務所處理的個人資料內容、使用方式、處理者以及目的。這也適用於可能參與的第三方，包括廣告商。,許多消費者物聯網設備都會處理個人資料。 預計製造商將在消費性物聯網設備中提供支援保護此類個人資料的功能。問題：1. 製造商如何提供消費者清晰透明的個人資料資訊？A) 處理哪些個人資料？B) 如何使用個人資料？C) 個人資料被誰使用？D) 個人資料的使用目的是什麼？2. 如何確保每台設備都做到這一點？3. 如何確保每項服務都能做到這一點？4. 如果涉及第三方，包括廣告商，如何確保這一點？,設備本身並無存儲任何除了登入帳號或連線上網之外的任何資訊,,,製造商應向消費者說明每個設備和服務處理的個人資料內容、使用方式和目的，包括參與的第三方。,"The verdict PASS is assigned if:  
+- the information about processing personal data is suitably provided to the consumer.
+- the information about processing personal data can be obtained as described; and
+- the obtained information about processing personal data match their description; and
+- the personal data being processed is clearly and transparently described; and
+- it is clearly and transparently described how personal data is being used, by whom, and for what purposes.
+The verdict FAIL is assigned otherwise."
+6.2, MC(7),,處理個人資料之依據係消費者的同意，應以有效方式取得此同意。,"注意：「以有效方式」取得同意通常涉及讓消費者自由、明顯和明確地選擇其個人資料是否可用於特定目的。
+
+問題：
+如果在消費者同意的基礎上處理個人資料：
+1. 如何有效地獲得該同意？",,,,處理個人資料需取得消費者同意，並以有效方式取得。,"The verdict PASS is assigned if:  
+- it is described how to express consent (opt-in choice) to the processing of personal data for specific purposes; and
+- the opt-in choice is given freely, obviously and explicitly.
+- the way of obtaining consumers' consent matches the description.
+The verdict FAIL is assigned otherwise."
+6.3,M,,同意處理其個人資料的消費者有權隨時撤回其個人資料。,注意：消費者希望能夠透過適當配置物聯網設備和服務功能來保護自己的隱私。問題：1. 同意處理其個人資料的消費者如何隨時能撤回？ ,D-Link 除了登入的帳號密碼之外，不會存儲有關個人隱私資料。,,,消費者有權隨時撤回其個人資料處理的同意。,"The verdict PASS is assigned if:  
+- it is described how to withdraw consent to the processing of personal data at any time.
+- the way of withdrawing consumers' consent matches the description.
+The verdict FAIL is assigned otherwise."
+6.4,RC(6),,若由消費者 IoT 裝置及服務蒐集遙測資料，則宜將個人資料之處理保持於預期功能性所必要的最低限度。,"問題：
+如果遙測資料是從消費者物聯網設備和服務收集的：
+1. 個人資料的處理是否會維持在預期功能所需的最低限度？",D-Link 除了登入的帳號密碼之外，不會存儲有關個人隱私資料。,,,處理個人資料應保持在最小必要範圍內。,"The verdict PASS is assigned if for each telemetry data:
+
+- their processing is necessary for the intended functionality.
+
+The verdict FAIL is assigned otherwise."
+6.5, MC(6),,若由消費者 IoT 裝置及服務中蒐集遙測資料，應向消費者提供有關蒐集哪些遙測資料、如何利用、利用對象及利用目的之資訊。,"問題：
+如果正在收集遙測數據：
+對於從消費者物聯網設備和服務收集的遙測數據，是否會向消費者提供以下資訊：
+1. 收集哪些遙測資料？
+2. 如何使用遙測資料？
+3. 遙測資料由誰使用？
+4. 遙測資料的用途是什麼？",在帳戶建立和裝置註冊過程中，所有可能透過雲端服務收集的資料都會被充分了解。 D-Link 入口網站自 2019 年起已取得 TRUSTe 憑證。,,,製造商應向消費者提供蒐集哪些遙測資料、如何利用、利用對象及利用目的的資訊。,"The verdict PASS is assigned if:  
+- the information about processing telemetry data is suitably provided to the consumer.
+- the information about processing telemetry data can be obtained as described; and
+- the obtained information about processing telemetry data match their description; and
+- the telemetry data being collected is described; and
+- it is completely described how telemetry data is being used, by whom, and for what purposes.
+The verdict FAIL is assigned otherwise."

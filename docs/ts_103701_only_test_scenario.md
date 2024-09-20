@@ -551,7 +551,7 @@ The verdict PASS is assigned if:
 
 The verdict FAIL is assigned otherwise.
 
-## 5.3.3 Test group 5.3-3  
+## 5.3.3 Test group 5.3-3
 
 ### 5.3.3.0 Test group objective
 
@@ -572,9 +572,14 @@ The purpose of this test case is the conceptual assessment of the update mechani
 a) For each software component in IXIT 6-SoftComp, the TL **shall** assess whether at least one "Update Mechanism" is described, which is simple for the user to apply according to "Initiation and Interaction" in IXIT 7-UpdMech based on the following factors:
 
 - the software update is automatically applied without requiring any user interaction; or
+- the software update is initiated via an associated service; or
 - the software update is initiated via a web interface on the device; or
 - the software update uses a comparable approach which is applicable for the user with limited technical knowledge (see clause D.3).
-- the software update is initiated via an associated service; or Assignment of verdict The verdict PASS is assigned if:
+
+#### Assignment of verdict
+
+The verdict PASS is assigned if:
+
 - each software component is covered by at least one update mechanism, which is simple for the user to apply.
 
 The verdict FAIL is assigned otherwise.
@@ -1355,19 +1360,19 @@ The verdict PASS is assigned if:
 
 The verdict FAIL is assigned otherwise.
 
-## 5.4.3.2 Test Case 5.4-3-2 (Functional)
+### 5.4.3.2 Test Case 5.4-3-2 (Functional)
 
-### Test purpose
+#### Test purpose
 
 The purpose of this test case is the functional assessment of hard-coded critical security parameters.
 
-### Test units
+#### Test units
 
 a) The TL **shall** functionally assess whether for all critical security parameters hard-coded in device software source code documented in "Description" of IXIT 10-SecParam, the "Provisioning Mechanism" is indeed applied during the operation of the DUT.
 
 EXAMPLE: If a provisioning mechanism states that a hard-coded critical security parameter is intended to be replaced by the user using individual data (e.g. based on a QR code), the verification that the user is requested to input this data can be helpful to collect an indication.
 
-### Assignment of verdict
+#### Assignment of verdict
 
 The verdict PASS is assigned if:
 
@@ -2117,7 +2122,9 @@ The purpose of this test case is the conceptual assessment of the code minimizat
 
 a) The TL **shall** assess whether the code minimization techniques in IXIT 16-CodeMin are appropriate for reducing code to the necessary functionality.
 
-Assignment of verdict The verdict PASS is assigned if:
+#### Assignment of verdict
+
+The verdict PASS is assigned if:
 
 - the described code minimization techniques are appropriate for reducing code to the necessary functionality.
 
@@ -2749,9 +2756,7 @@ The test group addresses the provision 5.11-2.
 
 The provision implies that a functionality for removal of personal data can be clearly identified (possibly in relation to a specific associated service that can be used from the device) and can be easily performed.
 
-### 5.11.2.1
-
-Test case 5.11-2-1 (conceptual)
+### 5.11.2.1 Test case 5.11-2-1 (conceptual)
 
 #### Test purpose
 
@@ -2763,7 +2768,7 @@ a) For all deletion functionalities in IXIT 25-DelFunc the TL **shall** assess w
 
 b) The TL **shall** assess whether all associated services storing personal data according to "Processing Activities" in IXIT 21-PersData are covered by the combination of all deletion functionalities in IXIT 25-DelFunc.
 
-## Assignment Of Verdict Test Purpose
+#### Assignment of verdict
 
 The verdict PASS is assigned if:
 
@@ -2929,9 +2934,13 @@ The verdict PASS is assigned if:
 
 The verdict FAIL is assigned otherwise.
 
-## 5.12.2 Test Group 5.12-2 5.12.2.0 Test Group Objective
+## 5.12.2 Test Group 5.12-2
 
-The test group addresses the provision 5.12-2. Guidance entails describing what the setup parameters are that have an impact on security, issuing a recommendation on how to configure the parameters to achieve a secure setup.
+### 5.12.2.0 Test Group Objective
+
+The test group addresses the provision 5.12-2.
+
+Guidance entails describing what the setup parameters are that have an impact on security, issuing a recommendation on how to configure the parameters to achieve a secure setup.
 
 ## 5.12.2.1 Test Case 5.12-2-1 (Functional)
 
